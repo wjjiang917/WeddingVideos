@@ -5,6 +5,9 @@ package com.pindiboy.weddingvideos.common;
  */
 
 public interface Constant {
+    // Constant
+    String CACHE_NET = "net";
+    String DEVELOPER_KEY = "AIzaSyD6RJNbrSDK3QheXOy2mCg056lLnMLwso0";
 
     // SharePreference
     String NAME_SP = "name_sp";
