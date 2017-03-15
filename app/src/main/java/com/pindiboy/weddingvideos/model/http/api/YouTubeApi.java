@@ -17,6 +17,6 @@ public interface YouTubeApi {
     /**
      * get videos by channelId
      */
-    @GET("search?part=snippet&order=rating&key=" + Constant.DEVELOPER_KEY)
-    Observable<ChannelBean> getChannelVideos(@Query("channelId") String channelId);
+    @GET("search?part=snippet&order=rating&maxResults=" + Constant.CHANNEL_VIDEOS_PAGE_SIZE + "&key=" + Constant.DEVELOPER_KEY)
+    Observable<ChannelBean> getChannelVideos(@Query("channelId") String channelId, @Query("pageToken") String pageToken);
 }

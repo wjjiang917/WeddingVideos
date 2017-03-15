@@ -21,8 +21,8 @@ public class ChannelPresenter extends RxPresenter<ChannelContract.View> implemen
     }
 
     @Override
-    public void getChannelVideos(String channelId) {
-        addSubscribe(mApiService.fetchChannelVideos(channelId)
+    public void getChannelVideos(String channelId, String pageToken) {
+        addSubscribe(mApiService.fetchChannelVideos(channelId, pageToken)
                 .compose(RxUtil.<ChannelBean>rxSchedulerHelper())
                 .subscribe(new Action1<ChannelBean>() {
                     @Override

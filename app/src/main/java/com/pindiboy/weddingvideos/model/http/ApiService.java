@@ -16,7 +16,7 @@ public class ApiService {
         this.youTubeApi = youTubeApi;
     }
 
-    public Observable<ChannelBean> fetchChannelVideos(String channelId) {
-        return youTubeApi.getChannelVideos(channelId);
+    public Observable<ChannelBean> fetchChannelVideos(String channelId, String pageToken) {
+        return youTubeApi.getChannelVideos(channelId, pageToken);
     }
 }

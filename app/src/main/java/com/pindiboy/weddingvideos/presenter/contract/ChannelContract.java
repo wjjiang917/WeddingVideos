@@ -14,6 +14,6 @@ public interface ChannelContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-        void getChannelVideos(String channelId);
+        void getChannelVideos(String channelId, String pageToken);
     }
 }

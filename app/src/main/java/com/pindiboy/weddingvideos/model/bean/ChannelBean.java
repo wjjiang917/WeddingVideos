@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class ChannelBean {
     private String kind;
+    private String prevPageToken;
     private String nextPageToken;
     private String regionCode;
     private PageInfo pageInfo;
@@ -25,6 +26,14 @@ public class ChannelBean {
 
     public void setKind(String kind) {
         this.kind = kind;
+    }
+
+    public String getPrevPageToken() {
+        return prevPageToken;
+    }
+
+    public void setPrevPageToken(String prevPageToken) {
+        this.prevPageToken = prevPageToken;
     }
 
     public String getNextPageToken() {

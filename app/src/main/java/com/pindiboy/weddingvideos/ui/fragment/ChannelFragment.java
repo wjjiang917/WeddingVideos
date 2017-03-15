@@ -4,6 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.ChannelBean;
@@ -31,6 +32,7 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
     private List<VideoBean> mVideos;
     private VideoListAdapter mAdapter;
     private boolean loadMore = false;
+    private String pageToken = ""; // for pagination
 
     @Override
     protected int getLayoutResId() {
@@ -48,27 +50,44 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             channelId = getArguments().getString(Constant.BUNDLE_CHANNEL_ID);
         }
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.getChannelVideos(channelId);
-            }
-        });
-
         mAdapter = new VideoListAdapter(mVideos);
         rvVideoList.setLayoutManager(new LinearLayoutManager(mContext));
         rvVideoList.setAdapter(mAdapter);
 
-        mPresenter.getChannelVideos(channelId);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                loadMore = true;
+                mPresenter.getChannelVideos(channelId, pageToken);
+            }
+        });
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadMore = false;
+                pageToken = "";
+                mPresenter.getChannelVideos(channelId, pageToken);
+            }
+        });
+
+        mPresenter.getChannelVideos(channelId, pageToken);
     }
 
     @Override
     public void onChannelVideosLoaded(ChannelBean channelBean) {
+        mAdapter.loadMoreComplete();
         if (swipeRefresh.isRefreshing()) {
             swipeRefresh.setRefreshing(false);
         }
 
         mVideos = channelBean.getItems();
+        // disable load more
+        if (null == mVideos || mVideos.size() < Constant.CHANNEL_VIDEOS_PAGE_SIZE) {
+            mAdapter.loadMoreEnd();
+        }
+
+        pageToken = channelBean.getNextPageToken();
         if (loadMore) {
             mAdapter.addData(mVideos);
         } else {
