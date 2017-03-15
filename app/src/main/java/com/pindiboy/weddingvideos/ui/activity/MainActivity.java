@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
@@ -46,7 +47,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected void init() {
-        mToolbar.setTitle("APP NAME");
+        mToolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(mToolbar);
 
         // cricket
@@ -71,5 +72,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.getTabAt(0).setText(CHANNELS[0]);
         mTabLayout.getTabAt(1).setText(CHANNELS[1]);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
     }
 }
