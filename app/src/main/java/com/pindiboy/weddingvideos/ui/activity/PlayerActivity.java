@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
+import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayer;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerFullScreenListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
+import com.pindiboy.weddingvideos.util.Logger;
 
 /**
  * Created by Jiangwenjin on 2017/3/15.
@@ -38,6 +40,27 @@ public class PlayerActivity extends AppCompatActivity {
                 youTubePlayerView.loadVideo(videoId, 0);
             }
 
+            @Override
+            public void onPlaybackQualityChange(@YouTubePlayer.PlaybackQuality.Quality int playbackQuality) {
+                super.onPlaybackQualityChange(playbackQuality);
+                Logger.d("onPlaybackQualityChange: " + playbackQuality);
+
+                // getAvailableQualityLevels only working after onPlaybackQualityChange
+                youTubePlayerView.getAvailableQualityLevels();
+            }
+
+            @Override
+            public void onReturnAvailableQualityLevels(int[] playbackQualities) {
+                super.onReturnAvailableQualityLevels(playbackQualities);
+            }
+
+            @Override
+            public void onError(@YouTubePlayer.Error.PlayerError int error) {
+                super.onError(error);
+
+                Logger.e("onError... " + error);
+                // TODO show error
+            }
         }, true);
 
         youTubePlayerView.addFullScreenListener(new YouTubePlayerFullScreenListener() {
@@ -60,13 +83,6 @@ public class PlayerActivity extends AppCompatActivity {
                 fullScreenManager.exitFullScreen();
 
                 youTubePlayerView.setCustomActionRight(ContextCompat.getDrawable(PlayerActivity.this, R.drawable.ic_pause_36dp), null);
-            }
-        });
-
-        findViewById(R.id.next_video_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                youTubePlayerView.loadVideo("LvetJ9U_tVY", 0);
             }
         });
     }

@@ -10,12 +10,4 @@
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/next_video_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="26dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="nextVideo" />
 </LinearLayout>
