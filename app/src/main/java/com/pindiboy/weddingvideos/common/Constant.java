@@ -13,4 +13,5 @@ public interface Constant {
     String NAME_SP = "name_sp";
 
     // intent extra key / fragment argument bundle key
+    String BUNDLE_CHANNEL_ID = "bundle_channel_id";
 }

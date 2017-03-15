@@ -1,8 +1,10 @@
 package com.pindiboy.weddingvideos.model.http.api;
 
+import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.ChannelBean;
 
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -15,6 +17,6 @@ public interface YouTubeApi {
     /**
      * get videos by channelId
      */
-    @GET("search")
-    Observable<ChannelBean> getChannelVideos();
+    @GET("search?part=snippet&order=rating&key=" + Constant.DEVELOPER_KEY)
+    Observable<ChannelBean> getChannelVideos(@Query("channelId") String channelId);
 }

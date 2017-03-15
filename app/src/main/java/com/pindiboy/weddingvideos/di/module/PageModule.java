@@ -1,6 +1,6 @@
 package com.pindiboy.weddingvideos.di.module;
 
-import com.pindiboy.weddingvideos.ui.fragment.WeddingFragment;
+import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
 
 import javax.inject.Singleton;
 
@@ -12,9 +12,5 @@ import dagger.Provides;
  */
 @Module
 public class PageModule {
-    @Singleton
-    @Provides
-    WeddingFragment provideWeddingFragment() {
-        return new WeddingFragment();
-    }
+
 }

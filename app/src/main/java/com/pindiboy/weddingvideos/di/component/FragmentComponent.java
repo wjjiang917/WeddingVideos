@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.pindiboy.weddingvideos.di.module.FragmentModule;
 import com.pindiboy.weddingvideos.di.scope.FragmentScope;
+import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
 
 import dagger.Component;
 
@@ -14,4 +15,6 @@ import dagger.Component;
 @Component(dependencies = AppComponent.class, modules = FragmentModule.class)
 public interface FragmentComponent {
     Activity getActivity();
+
+    void inject(ChannelFragment channelFragment);
 }
