@@ -14,7 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullScreenListener, YouTubePlayer.YouTubeListener, SeekBar.OnSeekBarChangeListener {
+class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullScreenListener, YouTubePlayer.YouTubeListener, SeekBar.OnSeekBarChangeListener,
+        YouTubePlayerSettingsListener {
     // will use this view as an access point to the YouTubePlayer
     @NonNull
     private final YouTubePlayerView youTubePlayerView;
@@ -44,6 +45,9 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
     private final ImageView fullScreenButton;
 
     @NonNull
+    private final ImageView settingButton;
+
+    @NonNull
     private final ImageView customActionLeft;
     @NonNull
     private final ImageView customActionRight;
@@ -52,6 +56,7 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
     private final SeekBar seekBar;
 
     private View.OnClickListener onFullScreenButtonListener;
+    private View.OnClickListener onSettingButtonListener;
 
     // view state
     private boolean isPlaying = false;
@@ -75,6 +80,7 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
         playButton = (ImageView) controlsView.findViewById(R.id.play_button);
         youTubeButton = (ImageView) controlsView.findViewById(R.id.youtube_button);
         fullScreenButton = (ImageView) controlsView.findViewById(R.id.fullscreen_button);
+        settingButton = (ImageView) controlsView.findViewById(R.id.setting_button);
 
         customActionLeft = (ImageView) controlsView.findViewById(R.id.custom_action_left_button);
         customActionRight = (ImageView) controlsView.findViewById(R.id.custom_action_right_button);
@@ -85,10 +91,15 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
         panel.setOnClickListener(this);
         playButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
+        settingButton.setOnClickListener(this);
     }
 
     void setOnFullScreenButtonListener(View.OnClickListener onFullScreenButtonListener) {
         this.onFullScreenButtonListener = onFullScreenButtonListener;
+    }
+
+    void setOnSettingButtonListener(View.OnClickListener onSettingButtonListener) {
+        this.onSettingButtonListener = onSettingButtonListener;
     }
 
     void setCustomActionRight(Drawable icon, View.OnClickListener clickListener) {
@@ -119,6 +130,16 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
             onPlayButtonPressed();
         else if (view == fullScreenButton)
             onFullScreenPressed();
+        else if (view == settingButton)
+            onSettingPressed();
+    }
+
+    private void onSettingPressed() {
+        if (onSettingButtonListener == null) {
+            youTubePlayerView.clickSettings();
+        } else {
+            onSettingButtonListener.onClick(settingButton);
+        }
     }
 
     private void onFullScreenPressed() {
@@ -213,6 +234,13 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
     @Override
     public void onYouTubePlayerExitFullScreen() {
         fullScreenButton.setImageResource(R.drawable.ic_fullscreen_24dp);
+    }
+
+    // show settings callback
+
+    @Override
+    public void onClickSettings() {
+
     }
 
     // YouTubePlayer callbacks
@@ -315,10 +343,12 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
 
     @Override
     public void onPlaybackQualityChange(@YouTubePlayer.PlaybackQuality.Quality int playbackQuality) {
+
     }
 
     @Override
     public void onReturnAvailableQualityLevels(int[] playbackQualities) {
+        settingButton.setVisibility(View.VISIBLE);
     }
 
     @Override

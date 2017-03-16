@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.pindiboy.weddingvideos.di.module.ActivityModule;
 import com.pindiboy.weddingvideos.di.scope.ActivityScope;
 import com.pindiboy.weddingvideos.ui.activity.MainActivity;
+import com.pindiboy.weddingvideos.ui.activity.PlayerActivity;
 
 import dagger.Component;
 
@@ -17,4 +18,6 @@ public interface ActivityComponent {
     Activity getActivity();
 
     void inject(MainActivity mainActivity);
+
+    void inject(PlayerActivity playerActivity);
 }

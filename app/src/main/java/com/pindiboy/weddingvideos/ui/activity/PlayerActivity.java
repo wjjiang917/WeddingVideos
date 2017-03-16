@@ -1,39 +1,50 @@
 package com.pindiboy.weddingvideos.ui.activity;
 
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayer;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerFullScreenListener;
+import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerSettingsListener;
 import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
+import com.pindiboy.weddingvideos.presenter.PlayerPresenter;
+import com.pindiboy.weddingvideos.presenter.contract.PlayerContract;
+import com.pindiboy.weddingvideos.ui.BaseActivity;
 import com.pindiboy.weddingvideos.util.Logger;
+
+import butterknife.BindView;
 
 /**
  * Created by Jiangwenjin on 2017/3/15.
  */
 
-public class PlayerActivity extends AppCompatActivity {
-    private YouTubePlayerView youTubePlayerView;
+public class PlayerActivity extends BaseActivity<PlayerPresenter> implements PlayerContract.View {
+    @BindView(R.id.youtube_player_view)
+    YouTubePlayerView youTubePlayerView;
+
     private FullScreenManager fullScreenManager;
     private String videoId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
+    protected int getLayoutResId() {
+        return R.layout.activity_player;
+    }
 
+    @Override
+    protected void inject() {
+        getActivityComponent().inject(this);
+    }
+
+    @Override
+    protected void init() {
         videoId = getIntent().getStringExtra(Constant.INTENT_EXTRA_VIDEO_ID);
-
         fullScreenManager = new FullScreenManager(this);
 
-        youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player_view);
         youTubePlayerView.initialize(new AbstractYouTubeListener() {
             @Override
             public void onReady() {
@@ -44,9 +55,6 @@ public class PlayerActivity extends AppCompatActivity {
             public void onPlaybackQualityChange(@YouTubePlayer.PlaybackQuality.Quality int playbackQuality) {
                 super.onPlaybackQualityChange(playbackQuality);
                 Logger.d("onPlaybackQualityChange: " + playbackQuality);
-
-                // getAvailableQualityLevels only working after onPlaybackQualityChange
-                youTubePlayerView.getAvailableQualityLevels();
             }
 
             @Override
@@ -85,12 +93,22 @@ public class PlayerActivity extends AppCompatActivity {
                 youTubePlayerView.setCustomActionRight(ContextCompat.getDrawable(PlayerActivity.this, R.drawable.ic_pause_36dp), null);
             }
         });
+
+        // show quality settings
+        youTubePlayerView.addSettingsListener(new YouTubePlayerSettingsListener() {
+            @Override
+            public void onClickSettings() {
+                Logger.d("onClickSettings...");
+            }
+        });
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        youTubePlayerView.release();
+        if (null != youTubePlayerView) {
+            youTubePlayerView.release();
+        }
     }
 }

@@ -94,12 +94,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/fullscreen_button"
+            android:layout_toStartOf="@+id/setting_button"
             android:background="@drawable/background_item_selected"
             android:clickable="true"
             android:contentDescription="@string/open_video_in_youtube"
             android:padding="8dp"
-            android:src="@drawable/ic_youtube_24dp" />
+            android:src="@drawable/ic_youtube_24dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/setting_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/fullscreen_button"
+            android:background="@drawable/background_item_selected"
+            android:clickable="true"
+            android:contentDescription="@string/quality_setting"
+            android:padding="8dp"
+            android:src="@drawable/ic_setting_24dp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/fullscreen_button"

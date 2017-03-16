@@ -33,6 +33,7 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
     private final PlaybackResumer playbackResumer;
 
     private final Set<YouTubePlayerFullScreenListener> fullScreenListeners;
+    private final Set<YouTubePlayerSettingsListener> settingsListeners;
 
     private boolean isFullScreen;
 
@@ -60,6 +61,9 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
         fullScreenListeners = new HashSet<>();
         fullScreenListeners.add(playerControlsWrapper);
 
+        settingsListeners = new HashSet<>();
+        settingsListeners.add(playerControlsWrapper);
+
         youTubePlayer.addListener(playerControlsWrapper);
         youTubePlayer.addListener(playbackResumer);
 
@@ -81,6 +85,10 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
      */
     public void onFullScreenButtonListener(OnClickListener listener) {
         playerControlsWrapper.setOnFullScreenButtonListener(listener);
+    }
+
+    public void onSettingButtonListener(OnClickListener listener) {
+        playerControlsWrapper.setOnSettingButtonListener(listener);
     }
 
     public boolean isFullScreen() {
@@ -130,6 +138,14 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
 
     public boolean removeFullScreenListener(@NonNull YouTubePlayerFullScreenListener fullScreenListener) {
         return fullScreenListeners.remove(fullScreenListener);
+    }
+
+    public boolean addSettingsListener(@NonNull YouTubePlayerSettingsListener settingsListener) {
+        return settingsListeners.add(settingsListener);
+    }
+
+    public boolean removeSettingsListener(@NonNull YouTubePlayerSettingsListener settingsListener) {
+        return settingsListeners.remove(settingsListener);
     }
 
     // calls to YouTubePlayer
@@ -188,6 +204,16 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
         }
 
         youTubePlayer.getAvailableQualityLevels();
+    }
+
+    public void clickSettings() {
+        if (!initialized) {
+            Log.e("YouTubePlayerView", "the player has not been initialized");
+            return;
+        }
+
+        for (YouTubePlayerSettingsListener settingsListener : settingsListeners)
+            settingsListener.onClickSettings();
     }
 
     /**

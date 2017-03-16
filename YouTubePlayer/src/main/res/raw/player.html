@@ -113,6 +113,7 @@
         	console.log('[JS] quality changed to ' +playbackQuality.data);
 
         	onPlaybackQualityChange(playbackQuality.data);
+        	getAvailableQualityLevels(); // for return available quality levels
         }
 
         function onPlayerPlaybackRateChange(playbackRate) {
