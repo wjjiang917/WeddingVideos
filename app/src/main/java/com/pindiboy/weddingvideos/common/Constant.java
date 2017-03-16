@@ -12,7 +12,8 @@ public interface Constant {
     int CHANNEL_VIDEOS_PAGE_SIZE = 10;
 
     // SharePreference
-    String NAME_SP = "name_sp";
+    String SP_NAME = "sp_name";
+    String SP_KEY_COUNTRY_CODE = "sp_key_country_code";
 
     // intent extra key / fragment argument bundle key
     String BUNDLE_CHANNEL_ID = "bundle_channel_id";

@@ -4,12 +4,16 @@ import com.pindiboy.weddingvideos.App;
 import com.pindiboy.weddingvideos.BuildConfig;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.di.qualifier.ServiceType;
+import com.pindiboy.weddingvideos.model.http.api.IpApi;
 import com.pindiboy.weddingvideos.model.http.api.YouTubeApi;
 import com.pindiboy.weddingvideos.util.FileUtil;
 import com.pindiboy.weddingvideos.util.PhoneUtil;
+import com.pindiboy.weddingvideos.util.SPUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -18,11 +22,16 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Sink;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -55,6 +64,19 @@ public class HttpModule {
     @Provides
     YouTubeApi provideYouTubeService(@ServiceType("YouTube") Retrofit retrofit) {
         return retrofit.create(YouTubeApi.class);
+    }
+
+    @Singleton
+    @Provides
+    @ServiceType("Ip")
+    Retrofit provideIpRetrofit(Retrofit.Builder builder, OkHttpClient client) {
+        return createRetrofit(builder, client, IpApi.HOST);
+    }
+
+    @Singleton
+    @Provides
+    IpApi provideIpService(@ServiceType("Ip") Retrofit retrofit) {
+        return retrofit.create(IpApi.class);
     }
 
     @Singleton
@@ -94,9 +116,57 @@ public class HttpModule {
             }
         };
 
+        Interceptor paramsInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request original = chain.request();
+                HttpUrl originalHttpUrl = original.url();
+
+                // upload file
+                if (originalHttpUrl.toString().contains("uploadfile")) {
+                    return chain.proceed(chain.request());
+                }
+
+                // set portalType
+                Request.Builder builder = null;
+                if ("GET".equalsIgnoreCase(original.method())) {
+                    HttpUrl url;
+                    if (originalHttpUrl.toString().contains("youtube")) {
+                        url = originalHttpUrl.newBuilder()
+                                .addQueryParameter("regionCode", SPUtil.getCountryCode())
+                                .build();
+                    } else {
+                        url = originalHttpUrl.newBuilder().build();
+                    }
+
+                    builder = original.newBuilder()
+                            .url(url)
+                            .method(original.method(), original.body());
+                } else {
+                    RequestBody oldRb = original.body();
+                    String reqParam = "";
+                    if (originalHttpUrl.toString().contains("youtube")) {
+                        reqParam = "&regionCode=" + SPUtil.getCountryCode();
+                    }
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    Sink sink = Okio.sink(baos);
+                    BufferedSink bufferedSink = Okio.buffer(sink);
+                    oldRb.writeTo(bufferedSink);
+                    bufferedSink.writeString(reqParam, Charset.forName("UTF-8"));
+
+                    RequestBody rb = RequestBody.create(oldRb.contentType(), bufferedSink.buffer().readUtf8());
+                    builder = original.newBuilder().post(rb);
+                }
+
+                return chain.proceed(builder.build());
+            }
+        };
+
         //设置缓存
         builder.addNetworkInterceptor(cacheInterceptor);
         builder.addInterceptor(cacheInterceptor);
+        builder.addInterceptor(paramsInterceptor);
 
         File cacheDir = new File(FileUtil.getDiskCacheDir(App.getInstance()) + File.pathSeparator + Constant.CACHE_NET);
         if (!cacheDir.exists()) {

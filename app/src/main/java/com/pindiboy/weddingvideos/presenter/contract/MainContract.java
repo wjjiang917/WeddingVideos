@@ -1,5 +1,6 @@
 package com.pindiboy.weddingvideos.presenter.contract;
 
+import com.pindiboy.weddingvideos.model.bean.IpInfo;
 import com.pindiboy.weddingvideos.presenter.BasePresenter;
 import com.pindiboy.weddingvideos.ui.BaseView;
 
@@ -9,9 +10,10 @@ import com.pindiboy.weddingvideos.ui.BaseView;
 
 public interface MainContract {
     interface View extends BaseView {
-
+        void onIpInfoLoaded(IpInfo ipInfo);
     }
 
     interface Presenter extends BasePresenter<View> {
+        void getIpInfo();
     }
 }

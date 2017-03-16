@@ -12,6 +12,14 @@ import com.pindiboy.weddingvideos.common.Constant;
 
 public class SPUtil {
     public static SharedPreferences getSP() {
-        return App.getInstance().getSharedPreferences(Constant.NAME_SP, Context.MODE_PRIVATE);
+        return App.getInstance().getSharedPreferences(Constant.SP_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static String getCountryCode() {
+        return getSP().getString(Constant.SP_KEY_COUNTRY_CODE, "PK");
+    }
+
+    public static void setCountryCode(String countryCode) {
+        getSP().edit().putString(Constant.SP_KEY_COUNTRY_CODE, countryCode).apply();
     }
 }

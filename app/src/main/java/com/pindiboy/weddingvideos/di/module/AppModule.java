@@ -2,6 +2,7 @@ package com.pindiboy.weddingvideos.di.module;
 
 import com.pindiboy.weddingvideos.App;
 import com.pindiboy.weddingvideos.model.http.ApiService;
+import com.pindiboy.weddingvideos.model.http.api.IpApi;
 import com.pindiboy.weddingvideos.model.http.api.YouTubeApi;
 
 import javax.inject.Singleton;
@@ -28,7 +29,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    ApiService provideApiService(YouTubeApi youTubeApi) {
-        return new ApiService(youTubeApi);
+    ApiService provideApiService(YouTubeApi youTubeApi, IpApi ipApi) {
+        return new ApiService(youTubeApi,ipApi);
     }
 }

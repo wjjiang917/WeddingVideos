@@ -1,19 +1,24 @@
 package com.pindiboy.weddingvideos.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.Menu;
 
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
+import com.pindiboy.weddingvideos.model.bean.IpInfo;
 import com.pindiboy.weddingvideos.presenter.MainPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.MainContract;
 import com.pindiboy.weddingvideos.ui.BaseActivity;
 import com.pindiboy.weddingvideos.ui.ViewPagerAdapter;
 import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
+import com.pindiboy.weddingvideos.util.SPUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,5 +84,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public void onIpInfoLoaded(IpInfo ipInfo) {
+        String countryCode;
+        if (null != ipInfo && !TextUtils.isEmpty(ipInfo.getCountryCode())) {
+            countryCode = ipInfo.getCountryCode();
+        } else {
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            countryCode = tm.getNetworkCountryIso();
+        }
+
+        SPUtil.setCountryCode(countryCode.toUpperCase());
     }
 }
