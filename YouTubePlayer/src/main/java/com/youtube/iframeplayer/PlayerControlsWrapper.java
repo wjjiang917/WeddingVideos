@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.youtubeplayer;
+package com.youtube.iframeplayer;
 
 import android.animation.Animator;
 import android.content.Intent;

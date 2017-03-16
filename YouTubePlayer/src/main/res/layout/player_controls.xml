@@ -40,7 +40,8 @@
             android:padding="8dp"
             android:text=""
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/play_button"

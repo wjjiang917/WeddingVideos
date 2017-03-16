@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.youtubeplayer;
+package com.youtube.iframeplayer;
 
 import android.content.Context;
 import android.graphics.Bitmap;

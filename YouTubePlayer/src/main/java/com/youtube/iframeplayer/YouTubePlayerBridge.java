@@ -1,12 +1,10 @@
-package com.pierfrancescosoffritti.youtubeplayer;
+package com.youtube.iframeplayer;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.webkit.JavascriptInterface;
-
-import java.util.logging.Logger;
 
 /**
  * WEB TO APP bridge

@@ -1,4 +1,4 @@
-package com.pierfrancescosoffritti.youtubeplayer;
+package com.youtube.iframeplayer;
 
 /**
  * Utility class

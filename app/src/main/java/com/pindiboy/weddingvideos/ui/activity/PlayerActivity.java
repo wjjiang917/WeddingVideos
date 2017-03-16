@@ -4,11 +4,11 @@ import android.content.pm.ActivityInfo;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.pierfrancescosoffritti.youtubeplayer.AbstractYouTubeListener;
-import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayer;
-import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerFullScreenListener;
-import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerSettingsListener;
-import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
+import com.youtube.iframeplayer.AbstractYouTubeListener;
+import com.youtube.iframeplayer.YouTubePlayer;
+import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
+import com.youtube.iframeplayer.YouTubePlayerSettingsListener;
+import com.youtube.iframeplayer.YouTubePlayerView;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;

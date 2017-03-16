@@ -16,8 +16,8 @@
 #   public *;
 #}
 
--keep public class com.pierfrancescosoffritti.youtubeplayer.** {
+-keep public class com.youtube.iframeplayer.** {
    public *;
 }
 
--keepnames class com.pierfrancescosoffritti.youtubeplayer.*
+-keepnames class com.youtube.iframeplayer.*
