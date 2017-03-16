@@ -4,11 +4,13 @@ package com.pindiboy.weddingvideos.model.bean;
  * Created by Jiangwenjin on 2017/3/14.
  */
 
-public class VideoBean {
+public class Item {
     private String kind;
     private String etag;
-    private VideoId id;
+    private ItemId id;
     private Snippet snippet;
+    private ContentDetail contentDetails;
+    private Statistics statistics;
 
     public String getKind() {
         return kind;
@@ -26,11 +28,11 @@ public class VideoBean {
         this.etag = etag;
     }
 
-    public VideoId getId() {
+    public ItemId getId() {
         return id;
     }
 
-    public void setId(VideoId id) {
+    public void setId(ItemId id) {
         this.id = id;
     }
 
@@ -40,5 +42,21 @@ public class VideoBean {
 
     public void setSnippet(Snippet snippet) {
         this.snippet = snippet;
+    }
+
+    public ContentDetail getContentDetails() {
+        return contentDetails;
+    }
+
+    public void setContentDetails(ContentDetail contentDetails) {
+        this.contentDetails = contentDetails;
+    }
+
+    public Statistics getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(Statistics statistics) {
+        this.statistics = statistics;
     }
 }

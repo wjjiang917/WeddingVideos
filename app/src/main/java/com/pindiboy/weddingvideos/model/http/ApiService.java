@@ -1,6 +1,6 @@
 package com.pindiboy.weddingvideos.model.http;
 
-import com.pindiboy.weddingvideos.model.bean.ChannelBean;
+import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
 import com.pindiboy.weddingvideos.model.http.api.YouTubeApi;
 
 import rx.Observable;
@@ -16,7 +16,11 @@ public class ApiService {
         this.youTubeApi = youTubeApi;
     }
 
-    public Observable<ChannelBean> fetchChannelVideos(String channelId, String pageToken) {
+    public Observable<YouTubeBean> fetchChannelVideos(String channelId, String pageToken) {
         return youTubeApi.getChannelVideos(channelId, pageToken);
+    }
+
+    public Observable<YouTubeBean> fetchVideoDetail(String videoId) {
+        return youTubeApi.getVideoDetail(videoId);
     }
 }

@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
-import com.pindiboy.weddingvideos.model.bean.ChannelBean;
+import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.ChannelPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.ChannelContract;
 import com.pindiboy.weddingvideos.ui.BaseFragment;
@@ -84,23 +84,23 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
     }
 
     @Override
-    public void onChannelVideosLoaded(ChannelBean channelBean) {
+    public void onChannelVideosLoaded(YouTubeBean youTubeBean) {
         mAdapter.loadMoreComplete();
         if (swipeRefresh.isRefreshing()) {
             swipeRefresh.setRefreshing(false);
         }
 
-//        mVideos = channelBean.getItems();
+//        mVideos = youTubeBean.getItems();
         // disable load more
-        if (null == channelBean.getItems() || channelBean.getItems().size() < Constant.CHANNEL_VIDEOS_PAGE_SIZE) {
+        if (null == youTubeBean.getItems() || youTubeBean.getItems().size() < Constant.CHANNEL_VIDEOS_PAGE_SIZE) {
             mAdapter.loadMoreEnd();
         }
 
-        pageToken = channelBean.getNextPageToken();
+        pageToken = youTubeBean.getNextPageToken();
         if (loadMore) {
-            mAdapter.addData(channelBean.getItems());
+            mAdapter.addData(youTubeBean.getItems());
         } else {
-            mAdapter.setNewData(channelBean.getItems());
+            mAdapter.setNewData(youTubeBean.getItems());
         }
     }
 }

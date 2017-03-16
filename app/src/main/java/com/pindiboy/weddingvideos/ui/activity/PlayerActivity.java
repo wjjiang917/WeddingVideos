@@ -12,6 +12,7 @@ import com.pierfrancescosoffritti.youtubeplayer.YouTubePlayerView;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
+import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.PlayerPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.PlayerContract;
 import com.pindiboy.weddingvideos.ui.BaseActivity;
@@ -44,6 +45,9 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     protected void init() {
         videoId = getIntent().getStringExtra(Constant.INTENT_EXTRA_VIDEO_ID);
         fullScreenManager = new FullScreenManager(this);
+
+        // get video detail
+        mPresenter.getVideoDetail(videoId);
 
         youTubePlayerView.initialize(new AbstractYouTubeListener() {
             @Override
@@ -110,5 +114,10 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         if (null != youTubePlayerView) {
             youTubePlayerView.release();
         }
+    }
+
+    @Override
+    public void onVideoDetailLoaded(YouTubeBean youTubeBean) {
+
     }
 }

@@ -7,7 +7,7 @@ package com.pindiboy.weddingvideos.model.bean;
  * "videoId": "Ee2ot0QkEKg"
  */
 
-public class VideoId {
+public class ItemId {
     private String kind;
     private String videoId;
 

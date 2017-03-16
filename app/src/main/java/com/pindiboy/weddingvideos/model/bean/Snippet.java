@@ -1,5 +1,6 @@
 package com.pindiboy.weddingvideos.model.bean;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,13 +16,40 @@ import java.util.Map;
  */
 
 public class Snippet {
+    private String categoryId;
     private String channelId;
     private String channelTitle;
     private String description;
     private String liveBroadcastContent;
+    private Localized localized;
     private String publishedAt;
+    private List<String> tags;
     private Map<String, Thumbnail> thumbnails; // key: default, medium, high
     private String title;
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Localized getLocalized() {
+        return localized;
+    }
+
+    public void setLocalized(Localized localized) {
+        this.localized = localized;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
     public String getChannelId() {
         return channelId;

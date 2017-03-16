@@ -12,13 +12,22 @@ import java.util.List;
  * "pageInfo": {},
  * "items": []
  */
-public class ChannelBean {
+public class YouTubeBean {
     private String kind;
+    private String etag;
     private String prevPageToken;
     private String nextPageToken;
     private String regionCode;
     private PageInfo pageInfo;
-    private List<VideoBean> items;
+    private List<Item> items;
+
+    public String getEtag() {
+        return etag;
+    }
+
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
 
     public String getKind() {
         return kind;
@@ -60,11 +69,11 @@ public class ChannelBean {
         this.pageInfo = pageInfo;
     }
 
-    public List<VideoBean> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<VideoBean> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 }
