@@ -1,17 +1,29 @@
 package com.pindiboy.weddingvideos.ui.activity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
+import com.pindiboy.weddingvideos.model.bean.youtube.Item;
+import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
 import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.PlayerPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.PlayerContract;
 import com.pindiboy.weddingvideos.ui.BaseActivity;
+import com.pindiboy.weddingvideos.ui.adapter.VideoListAdapter;
+import com.pindiboy.weddingvideos.util.DateUtil;
 import com.pindiboy.weddingvideos.util.Logger;
+import com.pindiboy.weddingvideos.util.NumberUtil;
 import com.youtube.iframeplayer.AbstractYouTubeListener;
 import com.youtube.iframeplayer.YouTubePlayerButtonListener;
 import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
@@ -26,7 +38,18 @@ import butterknife.BindView;
 public class PlayerActivity extends BaseActivity<PlayerPresenter> implements PlayerContract.View {
     @BindView(R.id.youtube_player_view)
     YouTubePlayerView youTubePlayerView;
+    @BindView(R.id.video_info_title)
+    TextView videoTitle;
+    @BindView(R.id.video_detail)
+    TextView videoDetail;
+    @BindView(R.id.video_related)
+    RecyclerView rvRelated;
+    @BindView(R.id.video_related_progress)
+    ProgressBar pvRelated;
 
+    private VideoListAdapter mAdapter;
+    private boolean loadMore = false;
+    private String pageToken = ""; // for pagination
     private FullScreenManager fullScreenManager;
     private String videoId;
 
@@ -47,6 +70,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
         // get video detail
         mPresenter.getVideoDetail(videoId);
+        mPresenter.getRelatedVideos(videoId, "");
 
         youTubePlayerView.initialize(new AbstractYouTubeListener() {
             @Override
@@ -85,6 +109,27 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 Logger.d("onClickSettings...");
             }
         });
+
+        mAdapter = new VideoListAdapter(null);
+        rvRelated.setLayoutManager(new LinearLayoutManager(mContext));
+        rvRelated.setAdapter(mAdapter);
+
+        rvRelated.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, PlayerActivity.class);
+                intent.putExtra(Constant.INTENT_EXTRA_VIDEO_ID, mAdapter.getData().get(position).getId().getVideoId());
+                mContext.startActivity(intent);
+            }
+        });
+
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                loadMore = true;
+                mPresenter.getRelatedVideos(videoId, pageToken);
+            }
+        });
     }
 
     @Override
@@ -97,6 +142,25 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     @Override
     public void onVideoDetailLoaded(YouTubeBean<String> youTubeBean) {
+        Item<String> item = youTubeBean.getItems().get(0);
+        videoTitle.setText(item.getSnippet().getTitle());
+        videoDetail.setText("Published: " + DateUtil.getNewFormat(item.getSnippet().getPublishedAt(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM, yyyy") + " / Views: " + NumberUtil.format(item.getStatistics().getViewCount()));
+    }
 
+    @Override
+    public void onRelatedVideosLoaded(YouTubeBean<ItemId> youTubeBean) {
+        pvRelated.setVisibility(View.GONE);
+
+        // disable load more
+        if (null == youTubeBean.getItems() || youTubeBean.getItems().size() < Constant.CHANNEL_VIDEOS_PAGE_SIZE) {
+            mAdapter.loadMoreEnd();
+        }
+
+        pageToken = youTubeBean.getNextPageToken();
+        if (loadMore) {
+            mAdapter.addData(youTubeBean.getItems());
+        } else {
+            mAdapter.setNewData(youTubeBean.getItems());
+        }
     }
 }

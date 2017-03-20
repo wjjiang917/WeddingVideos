@@ -91,7 +91,6 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             swipeRefresh.setRefreshing(false);
         }
 
-//        mVideos = youTubeBean.getItems();
         // disable load more
         if (null == youTubeBean.getItems() || youTubeBean.getItems().size() < Constant.CHANNEL_VIDEOS_PAGE_SIZE) {
             mAdapter.loadMoreEnd();

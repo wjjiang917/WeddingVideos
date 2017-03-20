@@ -72,25 +72,25 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
     PlayerControlsWrapper(@NonNull YouTubePlayerView youTubePlayerView, @NonNull View controlsView) {
         this.youTubePlayerView = youTubePlayerView;
 
-        videoControls = (FrameLayout) controlsView.findViewById(R.id.video_controls);
-        panel = controlsView.findViewById(R.id.panel);
+        videoControls = (FrameLayout) controlsView.findViewById(R.id.sdk_video_controls);
+        panel = controlsView.findViewById(R.id.sdk_panel);
 
-        controlsRoot = controlsView.findViewById(R.id.controls_root);
+        controlsRoot = controlsView.findViewById(R.id.sdk_controls_root);
 
-        videoTitle = (TextView) controlsView.findViewById(R.id.video_title);
-        videoCurrentTime = (TextView) controlsView.findViewById(R.id.video_current_time);
-        videoDuration = (TextView) controlsView.findViewById(R.id.video_duration);
+        videoTitle = (TextView) controlsView.findViewById(R.id.sdk_video_title);
+        videoCurrentTime = (TextView) controlsView.findViewById(R.id.sdk_video_current_time);
+        videoDuration = (TextView) controlsView.findViewById(R.id.sdk_video_duration);
 
-        progressBar = (ProgressBar) controlsView.findViewById(R.id.progress);
-        playButton = (ImageView) controlsView.findViewById(R.id.play_button);
-        youTubeButton = (ImageView) controlsView.findViewById(R.id.youtube_button);
-        fullScreenButton = (ImageView) controlsView.findViewById(R.id.fullscreen_button);
-        settingButton = (ImageView) controlsView.findViewById(R.id.setting_button);
+        progressBar = (ProgressBar) controlsView.findViewById(R.id.sdk_progress);
+        playButton = (ImageView) controlsView.findViewById(R.id.sdk_play_button);
+        youTubeButton = (ImageView) controlsView.findViewById(R.id.sdk_youtube_button);
+        fullScreenButton = (ImageView) controlsView.findViewById(R.id.sdk_fullscreen_button);
+        settingButton = (ImageView) controlsView.findViewById(R.id.sdk_setting_button);
 
-        customActionLeft = (ImageView) controlsView.findViewById(R.id.custom_action_left_button);
-        customActionRight = (ImageView) controlsView.findViewById(R.id.custom_action_right_button);
+        customActionLeft = (ImageView) controlsView.findViewById(R.id.sdk_action_left_button);
+        customActionRight = (ImageView) controlsView.findViewById(R.id.sdk_action_right_button);
 
-        seekBar = (SeekBar) controlsView.findViewById(R.id.seek_bar);
+        seekBar = (SeekBar) controlsView.findViewById(R.id.sdk_seek_bar);
 
         seekBar.setOnSeekBarChangeListener(this);
         panel.setOnClickListener(this);

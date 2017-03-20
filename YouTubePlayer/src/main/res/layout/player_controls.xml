@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/video_controls"
+    android:id="@+id/sdk_video_controls"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <View
-        android:id="@+id/panel"
+        android:id="@+id/sdk_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
         android:clickable="true" />
 
     <RelativeLayout
-        android:id="@+id/controls_root"
+        android:id="@+id/sdk_controls_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent">
 
         <View
-            android:id="@+id/drop_shadow_top"
+            android:id="@+id/sdk_drop_shadow_top"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_alignParentTop="true"
-            android:background="@drawable/drop_shadow_top" />
+            android:background="@drawable/drop_shadow_top"
+            android:visibility="gone" />
 
         <View
-            android:id="@+id/drop_shadow_bottom"
+            android:id="@+id/sdk_drop_shadow_bottom"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/drop_shadow_bottom" />
 
         <TextView
-            android:id="@+id/video_title"
+            android:id="@+id/sdk_video_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -45,7 +46,7 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/play_button"
+            android:id="@+id/sdk_play_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -57,20 +58,20 @@
             android:visibility="invisible" />
 
         <ProgressBar
-            android:id="@+id/progress"
+            android:id="@+id/sdk_progress"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
 
         <TextView
-            android:id="@+id/video_current_time"
+            android:id="@+id/sdk_video_current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/youtube_button"
+            android:layout_alignBottom="@+id/sdk_youtube_button"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/youtube_button"
+            android:layout_alignTop="@+id/sdk_youtube_button"
             android:gravity="center_vertical"
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
@@ -79,13 +80,13 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/video_duration"
+            android:id="@+id/sdk_video_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/youtube_button"
+            android:layout_alignBottom="@+id/sdk_youtube_button"
             android:layout_alignParentBottom="true"
-            android:layout_alignTop="@+id/youtube_button"
-            android:layout_toStartOf="@+id/youtube_button"
+            android:layout_alignTop="@+id/sdk_youtube_button"
+            android:layout_toStartOf="@+id/sdk_youtube_button"
             android:gravity="center_vertical"
             android:paddingBottom="8dp"
             android:paddingRight="8dp"
@@ -94,11 +95,11 @@
             android:textSize="12sp" />
 
         <ImageView
-            android:id="@+id/youtube_button"
+            android:id="@+id/sdk_youtube_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/setting_button"
+            android:layout_toStartOf="@+id/sdk_setting_button"
             android:background="@drawable/background_item_selected"
             android:clickable="true"
             android:contentDescription="@string/open_video_in_youtube"
@@ -107,11 +108,11 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/setting_button"
+            android:id="@+id/sdk_setting_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/fullscreen_button"
+            android:layout_toStartOf="@+id/sdk_fullscreen_button"
             android:background="@drawable/background_item_selected"
             android:clickable="true"
             android:contentDescription="@string/quality_setting"
@@ -120,7 +121,7 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/fullscreen_button"
+            android:id="@+id/sdk_fullscreen_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -132,14 +133,14 @@
             android:src="@drawable/ic_fullscreen_24dp" />
 
         <SeekBar
-            android:id="@+id/seek_bar"
+            android:id="@+id/sdk_seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/youtube_button"
+            android:layout_alignBottom="@+id/sdk_youtube_button"
             android:layout_alignParentBottom="true"
-            android:layout_alignTop="@+id/youtube_button"
-            android:layout_toEndOf="@+id/video_current_time"
-            android:layout_toStartOf="@+id/video_duration"
+            android:layout_alignTop="@+id/sdk_youtube_button"
+            android:layout_toEndOf="@+id/sdk_video_current_time"
+            android:layout_toStartOf="@+id/sdk_video_duration"
             android:maxHeight="100dp"
             android:paddingBottom="6dp"
             android:progressBackgroundTint="@color/red"
@@ -147,12 +148,12 @@
             android:thumbTint="@color/red" />
 
         <ImageView
-            android:id="@+id/custom_action_left_button"
+            android:id="@+id/sdk_action_left_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="32dp"
-            android:layout_toStartOf="@+id/play_button"
+            android:layout_toStartOf="@+id/sdk_play_button"
             android:background="@drawable/background_item_selected"
             android:clickable="true"
             android:padding="8dp"
@@ -160,12 +161,12 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/custom_action_right_button"
+            android:id="@+id/sdk_action_right_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="32dp"
-            android:layout_toEndOf="@+id/play_button"
+            android:layout_toEndOf="@+id/sdk_play_button"
             android:background="@drawable/background_item_selected"
             android:clickable="true"
             android:padding="8dp"

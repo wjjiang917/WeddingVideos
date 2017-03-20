@@ -23,12 +23,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/video_title"
+                android:id="@+id/video_info_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2e2e2e"
                 android:padding="12dp"
-                android:text="Title Title Title Title Title Title"
+                android:text=" "
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp_16" />
 
@@ -39,7 +39,7 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="12dp"
                 android:paddingTop="5dp"
-                android:text="Published: 1 Jan, 2017 / Views: 10,000"
+                android:text="Published:  / Views: "
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="@dimen/sp_14" />
 
@@ -54,12 +54,24 @@
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/video_related"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/video_info"
-            android:scrollbars="none" />
+            android:layout_below="@+id/video_info">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/video_related"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+            <ProgressBar
+                android:id="@+id/video_related_progress"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <ImageView
