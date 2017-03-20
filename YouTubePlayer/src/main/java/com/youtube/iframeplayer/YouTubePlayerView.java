@@ -91,18 +91,6 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
         playerControlsWrapper.setOnSettingButtonListener(listener);
     }
 
-    public void onBackButtonListener(OnClickListener listener) {
-        playerControlsWrapper.setOnBackButtonListener(listener);
-    }
-
-    public void onDownloadButtonListener(OnClickListener listener) {
-        playerControlsWrapper.setOnDownloadButtonListener(listener);
-    }
-
-    public void onShareButtonListener(OnClickListener listener) {
-        playerControlsWrapper.setOnShareButtonListener(listener);
-    }
-
     public boolean isFullScreen() {
         return isFullScreen;
     }
@@ -226,36 +214,6 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
 
         for (YouTubePlayerButtonListener buttonListener : buttonListeners)
             buttonListener.onClickSettings();
-    }
-
-    public void clickShare() {
-        if (!initialized) {
-            Log.e("YouTubePlayerView", "the player has not been initialized");
-            return;
-        }
-
-        for (YouTubePlayerButtonListener buttonListener : buttonListeners)
-            buttonListener.onClickShare();
-    }
-
-    public void clickBack() {
-        if (!initialized) {
-            Log.e("YouTubePlayerView", "the player has not been initialized");
-            return;
-        }
-
-        for (YouTubePlayerButtonListener buttonListener : buttonListeners)
-            buttonListener.onClickBack();
-    }
-
-    public void clickDownload() {
-        if (!initialized) {
-            Log.e("YouTubePlayerView", "the player has not been initialized");
-            return;
-        }
-
-        for (YouTubePlayerButtonListener buttonListener : buttonListeners)
-            buttonListener.onClickDownload();
     }
 
     /**

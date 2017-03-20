@@ -1,13 +1,13 @@
-package com.pindiboy.weddingvideos.model.bean;
+package com.pindiboy.weddingvideos.model.bean.youtube;
 
 /**
  * Created by Jiangwenjin on 2017/3/14.
  */
 
-public class Item {
+public class Item<T> {
     private String kind;
     private String etag;
-    private ItemId id;
+    private T id;
     private Snippet snippet;
     private ContentDetail contentDetails;
     private Statistics statistics;
@@ -28,11 +28,11 @@ public class Item {
         this.etag = etag;
     }
 
-    public ItemId getId() {
+    public T getId() {
         return id;
     }
 
-    public void setId(ItemId id) {
+    public void setId(T id) {
         this.id = id;
     }
 

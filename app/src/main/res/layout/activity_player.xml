@@ -1,12 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.youtube.iframeplayer.YouTubePlayerView
-        android:id="@+id/youtube_player_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content">
+
+        <com.youtube.iframeplayer.YouTubePlayerView
+            android:id="@+id/youtube_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/video_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/youtube_player_view"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/video_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2e2e2e"
+                android:padding="12dp"
+                android:text="Title Title Title Title Title Title"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/video_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="5dp"
+                android:text="Published: 1 Jan, 2017 / Views: 10,000"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="5dp"
+                android:text="Related Videos:"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/video_related"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/video_info"
+            android:scrollbars="none" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/player_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_item_selected"
+        android:clickable="true"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_arrow_back_24dp" />
+
+    <ImageView
+        android:id="@+id/player_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/background_item_selected"
+        android:clickable="true"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_share_24dp" />
+
+    <ImageView
+        android:id="@+id/player_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/player_share"
+        android:background="@drawable/background_item_selected"
+        android:clickable="true"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_file_download_24dp" />
+</RelativeLayout>

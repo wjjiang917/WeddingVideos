@@ -1,6 +1,7 @@
 package com.pindiboy.weddingvideos.presenter.contract;
 
-import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
+import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
+import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.BasePresenter;
 import com.pindiboy.weddingvideos.ui.BaseView;
 
@@ -10,7 +11,7 @@ import com.pindiboy.weddingvideos.ui.BaseView;
 
 public interface ChannelContract {
     interface View extends BaseView {
-        void onChannelVideosLoaded(YouTubeBean youTubeBean);
+        void onChannelVideosLoaded(YouTubeBean<ItemId> youTubeBean);
     }
 
     interface Presenter extends BasePresenter<View> {

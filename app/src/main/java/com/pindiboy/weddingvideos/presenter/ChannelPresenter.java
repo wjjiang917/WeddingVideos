@@ -1,7 +1,8 @@
 package com.pindiboy.weddingvideos.presenter;
 
 import com.pindiboy.weddingvideos.common.RxUtil;
-import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
+import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
+import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.model.http.ApiService;
 import com.pindiboy.weddingvideos.presenter.contract.ChannelContract;
 import com.pindiboy.weddingvideos.util.Logger;
@@ -23,10 +24,10 @@ public class ChannelPresenter extends RxPresenter<ChannelContract.View> implemen
     @Override
     public void getChannelVideos(String channelId, String pageToken) {
         addSubscribe(mApiService.fetchChannelVideos(channelId, pageToken)
-                .compose(RxUtil.<YouTubeBean>rxSchedulerHelper())
-                .subscribe(new Action1<YouTubeBean>() {
+                .compose(RxUtil.<YouTubeBean<ItemId>>rxSchedulerHelper())
+                .subscribe(new Action1<YouTubeBean<ItemId>>() {
                     @Override
-                    public void call(YouTubeBean youTubeBean) {
+                    public void call(YouTubeBean<ItemId> youTubeBean) {
                         mView.onChannelVideosLoaded(youTubeBean);
                     }
                 }, new Action1<Throwable>() {

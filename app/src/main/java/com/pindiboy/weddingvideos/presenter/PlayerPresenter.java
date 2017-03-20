@@ -1,7 +1,7 @@
 package com.pindiboy.weddingvideos.presenter;
 
 import com.pindiboy.weddingvideos.common.RxUtil;
-import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
+import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.model.http.ApiService;
 import com.pindiboy.weddingvideos.presenter.contract.PlayerContract;
 import com.pindiboy.weddingvideos.util.Logger;
@@ -23,10 +23,10 @@ public class PlayerPresenter extends RxPresenter<PlayerContract.View> implements
     @Override
     public void getVideoDetail(String videoId) {
         addSubscribe(mApiService.fetchVideoDetail(videoId)
-                .compose(RxUtil.<YouTubeBean>rxSchedulerHelper())
-                .subscribe(new Action1<YouTubeBean>() {
+                .compose(RxUtil.<YouTubeBean<String>>rxSchedulerHelper())
+                .subscribe(new Action1<YouTubeBean<String>>() {
                     @Override
-                    public void call(YouTubeBean youTubeBean) {
+                    public void call(YouTubeBean<String> youTubeBean) {
                         mView.onVideoDetailLoaded(youTubeBean);
                     }
                 }, new Action1<Throwable>() {

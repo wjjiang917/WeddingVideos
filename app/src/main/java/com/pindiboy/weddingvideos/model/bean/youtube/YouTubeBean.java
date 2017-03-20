@@ -1,4 +1,4 @@
-package com.pindiboy.weddingvideos.model.bean;
+package com.pindiboy.weddingvideos.model.bean.youtube;
 
 import java.util.List;
 
@@ -12,14 +12,14 @@ import java.util.List;
  * "pageInfo": {},
  * "items": []
  */
-public class YouTubeBean {
+public class YouTubeBean<T> {
     private String kind;
     private String etag;
     private String prevPageToken;
     private String nextPageToken;
     private String regionCode;
     private PageInfo pageInfo;
-    private List<Item> items;
+    private List<Item<T>> items;
 
     public String getEtag() {
         return etag;
@@ -69,11 +69,11 @@ public class YouTubeBean {
         this.pageInfo = pageInfo;
     }
 
-    public List<Item> getItems() {
+    public List<Item<T>> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<Item<T>> items) {
         this.items = items;
     }
 }

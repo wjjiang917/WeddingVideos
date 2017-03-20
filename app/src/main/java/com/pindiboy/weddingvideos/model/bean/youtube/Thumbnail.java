@@ -1,4 +1,4 @@
-package com.pindiboy.weddingvideos.model.bean;
+package com.pindiboy.weddingvideos.model.bean.youtube;
 
 /**
  * Created by Jiangwenjin on 2017/3/15.

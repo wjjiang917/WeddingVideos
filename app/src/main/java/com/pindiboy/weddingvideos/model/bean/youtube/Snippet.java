@@ -1,4 +1,4 @@
-package com.pindiboy.weddingvideos.model.bean;
+package com.pindiboy.weddingvideos.model.bean.youtube;
 
 import java.util.List;
 import java.util.Map;

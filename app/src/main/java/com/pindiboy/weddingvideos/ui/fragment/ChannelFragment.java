@@ -10,7 +10,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
-import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
+import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
+import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.ChannelPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.ChannelContract;
 import com.pindiboy.weddingvideos.ui.BaseFragment;
@@ -84,7 +85,7 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
     }
 
     @Override
-    public void onChannelVideosLoaded(YouTubeBean youTubeBean) {
+    public void onChannelVideosLoaded(YouTubeBean<ItemId> youTubeBean) {
         mAdapter.loadMoreComplete();
         if (swipeRefresh.isRefreshing()) {
             swipeRefresh.setRefreshing(false);

@@ -7,13 +7,12 @@ import android.view.View;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
-import com.pindiboy.weddingvideos.model.bean.YouTubeBean;
+import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.PlayerPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.PlayerContract;
 import com.pindiboy.weddingvideos.ui.BaseActivity;
 import com.pindiboy.weddingvideos.util.Logger;
 import com.youtube.iframeplayer.AbstractYouTubeListener;
-import com.youtube.iframeplayer.YouTubePlayer;
 import com.youtube.iframeplayer.YouTubePlayerButtonListener;
 import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
 import com.youtube.iframeplayer.YouTubePlayerView;
@@ -54,25 +53,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             public void onReady() {
                 youTubePlayerView.loadVideo(videoId, 0);
             }
-
-            @Override
-            public void onPlaybackQualityChange(@YouTubePlayer.PlaybackQuality.Quality int playbackQuality) {
-                super.onPlaybackQualityChange(playbackQuality);
-                Logger.d("onPlaybackQualityChange: " + playbackQuality);
-            }
-
-            @Override
-            public void onReturnAvailableQualityLevels(int[] playbackQualities) {
-                super.onReturnAvailableQualityLevels(playbackQualities);
-            }
-
-            @Override
-            public void onError(@YouTubePlayer.Error.PlayerError int error) {
-                super.onError(error);
-
-                Logger.e("onError... " + error);
-                // TODO show error
-            }
         }, true);
 
         youTubePlayerView.addFullScreenListener(new YouTubePlayerFullScreenListener() {
@@ -104,21 +84,6 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             public void onClickSettings() {
                 Logger.d("onClickSettings...");
             }
-
-            @Override
-            public void onClickShare() {
-                Logger.d("onClickShare...");
-            }
-
-            @Override
-            public void onClickBack() {
-                finish();
-            }
-
-            @Override
-            public void onClickDownload() {
-                Logger.d("onClickDownload...");
-            }
         });
     }
 
@@ -131,7 +96,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     }
 
     @Override
-    public void onVideoDetailLoaded(YouTubeBean youTubeBean) {
+    public void onVideoDetailLoaded(YouTubeBean<String> youTubeBean) {
 
     }
 }
