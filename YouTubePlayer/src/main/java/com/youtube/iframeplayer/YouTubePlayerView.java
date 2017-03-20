@@ -33,7 +33,7 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
     private final PlaybackResumer playbackResumer;
 
     private final Set<YouTubePlayerFullScreenListener> fullScreenListeners;
-    private final Set<YouTubePlayerSettingsListener> settingsListeners;
+    private final Set<YouTubePlayerButtonListener> buttonListeners;
 
     private boolean isFullScreen;
 
@@ -61,8 +61,8 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
         fullScreenListeners = new HashSet<>();
         fullScreenListeners.add(playerControlsWrapper);
 
-        settingsListeners = new HashSet<>();
-        settingsListeners.add(playerControlsWrapper);
+        buttonListeners = new HashSet<>();
+        buttonListeners.add(playerControlsWrapper);
 
         youTubePlayer.addListener(playerControlsWrapper);
         youTubePlayer.addListener(playbackResumer);
@@ -89,6 +89,18 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
 
     public void onSettingButtonListener(OnClickListener listener) {
         playerControlsWrapper.setOnSettingButtonListener(listener);
+    }
+
+    public void onBackButtonListener(OnClickListener listener) {
+        playerControlsWrapper.setOnBackButtonListener(listener);
+    }
+
+    public void onDownloadButtonListener(OnClickListener listener) {
+        playerControlsWrapper.setOnDownloadButtonListener(listener);
+    }
+
+    public void onShareButtonListener(OnClickListener listener) {
+        playerControlsWrapper.setOnShareButtonListener(listener);
     }
 
     public boolean isFullScreen() {
@@ -140,12 +152,12 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
         return fullScreenListeners.remove(fullScreenListener);
     }
 
-    public boolean addSettingsListener(@NonNull YouTubePlayerSettingsListener settingsListener) {
-        return settingsListeners.add(settingsListener);
+    public boolean addSettingsListener(@NonNull YouTubePlayerButtonListener settingsListener) {
+        return buttonListeners.add(settingsListener);
     }
 
-    public boolean removeSettingsListener(@NonNull YouTubePlayerSettingsListener settingsListener) {
-        return settingsListeners.remove(settingsListener);
+    public boolean removeSettingsListener(@NonNull YouTubePlayerButtonListener settingsListener) {
+        return buttonListeners.remove(settingsListener);
     }
 
     // calls to YouTubePlayer
@@ -212,8 +224,38 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
             return;
         }
 
-        for (YouTubePlayerSettingsListener settingsListener : settingsListeners)
-            settingsListener.onClickSettings();
+        for (YouTubePlayerButtonListener buttonListener : buttonListeners)
+            buttonListener.onClickSettings();
+    }
+
+    public void clickShare() {
+        if (!initialized) {
+            Log.e("YouTubePlayerView", "the player has not been initialized");
+            return;
+        }
+
+        for (YouTubePlayerButtonListener buttonListener : buttonListeners)
+            buttonListener.onClickShare();
+    }
+
+    public void clickBack() {
+        if (!initialized) {
+            Log.e("YouTubePlayerView", "the player has not been initialized");
+            return;
+        }
+
+        for (YouTubePlayerButtonListener buttonListener : buttonListeners)
+            buttonListener.onClickBack();
+    }
+
+    public void clickDownload() {
+        if (!initialized) {
+            Log.e("YouTubePlayerView", "the player has not been initialized");
+            return;
+        }
+
+        for (YouTubePlayerButtonListener buttonListener : buttonListeners)
+            buttonListener.onClickDownload();
     }
 
     /**
@@ -234,16 +276,17 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
      * Call this method before destroying the host Fragment/Activity
      */
     public void release() {
+        try {
+            getContext().unregisterReceiver(networkReceiver);
+        } catch (Exception ignore) {
+        }
+
         if (!initialized) {
             Log.e("YouTubePlayerView", "the player has not been initialized");
             return;
         }
 
         youTubePlayer.destroy();
-        try {
-            getContext().unregisterReceiver(networkReceiver);
-        } catch (Exception ignore) {
-        }
     }
 
     /**

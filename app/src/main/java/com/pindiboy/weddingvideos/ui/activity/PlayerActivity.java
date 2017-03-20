@@ -4,11 +4,6 @@ import android.content.pm.ActivityInfo;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.youtube.iframeplayer.AbstractYouTubeListener;
-import com.youtube.iframeplayer.YouTubePlayer;
-import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
-import com.youtube.iframeplayer.YouTubePlayerSettingsListener;
-import com.youtube.iframeplayer.YouTubePlayerView;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
@@ -17,6 +12,11 @@ import com.pindiboy.weddingvideos.presenter.PlayerPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.PlayerContract;
 import com.pindiboy.weddingvideos.ui.BaseActivity;
 import com.pindiboy.weddingvideos.util.Logger;
+import com.youtube.iframeplayer.AbstractYouTubeListener;
+import com.youtube.iframeplayer.YouTubePlayer;
+import com.youtube.iframeplayer.YouTubePlayerButtonListener;
+import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
+import com.youtube.iframeplayer.YouTubePlayerView;
 
 import butterknife.BindView;
 
@@ -99,21 +99,35 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
         });
 
         // show quality settings
-        youTubePlayerView.addSettingsListener(new YouTubePlayerSettingsListener() {
+        youTubePlayerView.addSettingsListener(new YouTubePlayerButtonListener() {
             @Override
             public void onClickSettings() {
                 Logger.d("onClickSettings...");
+            }
+
+            @Override
+            public void onClickShare() {
+                Logger.d("onClickShare...");
+            }
+
+            @Override
+            public void onClickBack() {
+                finish();
+            }
+
+            @Override
+            public void onClickDownload() {
+                Logger.d("onClickDownload...");
             }
         });
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-
         if (null != youTubePlayerView) {
             youTubePlayerView.release();
         }
+        super.onDestroy();
     }
 
     @Override

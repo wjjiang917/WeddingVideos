@@ -15,7 +15,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullScreenListener, YouTubePlayer.YouTubeListener, SeekBar.OnSeekBarChangeListener,
-        YouTubePlayerSettingsListener {
+        YouTubePlayerButtonListener {
     // will use this view as an access point to the YouTubePlayer
     @NonNull
     private final YouTubePlayerView youTubePlayerView;
@@ -46,6 +46,12 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
 
     @NonNull
     private final ImageView settingButton;
+    @NonNull
+    private final ImageView backButton;
+    @NonNull
+    private final ImageView downloadButton;
+    @NonNull
+    private final ImageView shareButton;
 
     @NonNull
     private final ImageView customActionLeft;
@@ -57,6 +63,9 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
 
     private View.OnClickListener onFullScreenButtonListener;
     private View.OnClickListener onSettingButtonListener;
+    private View.OnClickListener onBackButtonListener;
+    private View.OnClickListener onDownloadButtonListener;
+    private View.OnClickListener onShareButtonListener;
 
     // view state
     private boolean isPlaying = false;
@@ -81,6 +90,9 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
         youTubeButton = (ImageView) controlsView.findViewById(R.id.youtube_button);
         fullScreenButton = (ImageView) controlsView.findViewById(R.id.fullscreen_button);
         settingButton = (ImageView) controlsView.findViewById(R.id.setting_button);
+        backButton = (ImageView) controlsView.findViewById(R.id.video_back);
+        downloadButton = (ImageView) controlsView.findViewById(R.id.video_download);
+        shareButton = (ImageView) controlsView.findViewById(R.id.video_share);
 
         customActionLeft = (ImageView) controlsView.findViewById(R.id.custom_action_left_button);
         customActionRight = (ImageView) controlsView.findViewById(R.id.custom_action_right_button);
@@ -92,6 +104,9 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
         playButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
         settingButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        downloadButton.setOnClickListener(this);
+        shareButton.setOnClickListener(this);
     }
 
     void setOnFullScreenButtonListener(View.OnClickListener onFullScreenButtonListener) {
@@ -100,6 +115,18 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
 
     void setOnSettingButtonListener(View.OnClickListener onSettingButtonListener) {
         this.onSettingButtonListener = onSettingButtonListener;
+    }
+
+    void setOnBackButtonListener(View.OnClickListener onBackButtonListener) {
+        this.onBackButtonListener = onBackButtonListener;
+    }
+
+    void setOnDownloadButtonListener(View.OnClickListener onDownloadButtonListener) {
+        this.onDownloadButtonListener = onDownloadButtonListener;
+    }
+
+    void setOnShareButtonListener(View.OnClickListener onShareButtonListener) {
+        this.onShareButtonListener = onShareButtonListener;
     }
 
     void setCustomActionRight(Drawable icon, View.OnClickListener clickListener) {
@@ -130,15 +157,30 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
             onPlayButtonPressed();
         else if (view == fullScreenButton)
             onFullScreenPressed();
-        else if (view == settingButton)
-            onSettingPressed();
-    }
-
-    private void onSettingPressed() {
-        if (onSettingButtonListener == null) {
-            youTubePlayerView.clickSettings();
-        } else {
-            onSettingButtonListener.onClick(settingButton);
+        else if (view == settingButton) {
+            if (onSettingButtonListener == null) {
+                youTubePlayerView.clickSettings();
+            } else {
+                onSettingButtonListener.onClick(view);
+            }
+        } else if (view == backButton) {
+            if (onBackButtonListener == null) {
+                youTubePlayerView.clickBack();
+            } else {
+                onBackButtonListener.onClick(view);
+            }
+        } else if (view == downloadButton) {
+            if (onDownloadButtonListener == null) {
+                youTubePlayerView.clickDownload();
+            } else {
+                onDownloadButtonListener.onClick(view);
+            }
+        } else if (view == shareButton) {
+            if (onShareButtonListener == null) {
+                youTubePlayerView.clickShare();
+            } else {
+                onShareButtonListener.onClick(view);
+            }
         }
     }
 
@@ -240,6 +282,21 @@ class PlayerControlsWrapper implements View.OnClickListener, YouTubePlayerFullSc
 
     @Override
     public void onClickSettings() {
+
+    }
+
+    @Override
+    public void onClickShare() {
+
+    }
+
+    @Override
+    public void onClickBack() {
+
+    }
+
+    @Override
+    public void onClickDownload() {
 
     }
 
