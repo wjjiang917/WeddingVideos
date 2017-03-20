@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/youtube_player_view"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <TextView
@@ -32,16 +33,38 @@
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp_16" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/video_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="5dp"
+                    android:text="Published:  / Views: "
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="@dimen/sp_14" />
+
+                <ImageView
+                    android:id="@+id/video_description_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="10dp"
+                    app:srcCompat="@drawable/ic_arrow_drop_down_black_24dp" />
+            </RelativeLayout>
+
             <TextView
-                android:id="@+id/video_detail"
+                android:id="@+id/video_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingLeft="12dp"
-                android:paddingTop="5dp"
-                android:text="Published:  / Views: "
-                android:textColor="@android:color/holo_blue_light"
-                android:textSize="@dimen/sp_14" />
+                android:padding="12dp"
+                android:text="really He is A starcricketer↵↵Also Like and Subscribe my other page: ↵https://www.youtube.com/channel/UCD7fjmnR73xmdV8m0lbbCmw↵↵Find them on Facebook: https://www.facebook.com/TheLegendsGamingOfficial2017"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"

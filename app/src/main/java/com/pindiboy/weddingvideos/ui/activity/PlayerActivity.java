@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
 import com.youtube.iframeplayer.YouTubePlayerView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Jiangwenjin on 2017/3/15.
@@ -42,6 +44,8 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     TextView videoTitle;
     @BindView(R.id.video_detail)
     TextView videoDetail;
+    @BindView(R.id.video_description)
+    TextView videoDesc;
     @BindView(R.id.video_related)
     RecyclerView rvRelated;
     @BindView(R.id.video_related_progress)
@@ -120,6 +124,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                 Intent intent = new Intent(mContext, PlayerActivity.class);
                 intent.putExtra(Constant.INTENT_EXTRA_VIDEO_ID, mAdapter.getData().get(position).getId().getVideoId());
                 mContext.startActivity(intent);
+                finish();
             }
         });
 
@@ -161,6 +166,17 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             mAdapter.addData(youTubeBean.getItems());
         } else {
             mAdapter.setNewData(youTubeBean.getItems());
+        }
+    }
+
+    @OnClick(R.id.video_description_btn)
+    public void toggleDesc(View view) {
+        if (videoDesc.getVisibility() == View.GONE) {
+            videoDesc.setVisibility(View.VISIBLE);
+            ((ImageView) view).setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+        } else {
+            videoDesc.setVisibility(View.GONE);
+            ((ImageView) view).setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
         }
     }
 }
