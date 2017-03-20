@@ -13,7 +13,8 @@
         <com.youtube.iframeplayer.YouTubePlayerView
             android:id="@+id/youtube_player_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:transitionName="video_item_view" />
 
         <LinearLayout
             android:id="@+id/video_info"
