@@ -1,6 +1,7 @@
 package com.pindiboy.weddingvideos.presenter;
 
 import com.pindiboy.weddingvideos.common.RxBus;
+import com.pindiboy.weddingvideos.model.db.RealmHelper;
 import com.pindiboy.weddingvideos.model.http.ApiService;
 import com.pindiboy.weddingvideos.ui.BaseView;
 
@@ -21,6 +22,11 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
      */
     protected ApiService mApiService;
 
+    /**
+     * api service
+     */
+    protected RealmHelper mRealmHelper;
+
     @Override
     public void attachView(T view) {
         this.mView = view;
@@ -30,6 +36,7 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
     public void detachView() {
         this.mView = null;
         unSubscribe();
+        mRealmHelper.close();
     }
 
     protected void unSubscribe() {

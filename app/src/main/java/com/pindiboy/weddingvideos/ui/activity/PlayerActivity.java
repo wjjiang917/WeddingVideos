@@ -186,4 +186,18 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             ((ImageView) view).setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
         }
     }
+
+    @OnClick(R.id.player_back)
+    public void clickBack(View view) {
+        finish();
+    }
+
+    @OnClick(R.id.player_share)
+    public void clickShare(View view) {
+
+    }
+
+    @OnClick(R.id.player_download)
+    public void clickDownload(View view) {
+    }
 }

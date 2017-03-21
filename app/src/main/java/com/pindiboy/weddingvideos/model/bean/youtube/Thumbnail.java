@@ -1,5 +1,7 @@
 package com.pindiboy.weddingvideos.model.bean.youtube;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Jiangwenjin on 2017/3/15.
  * <p>
@@ -8,7 +10,7 @@ package com.pindiboy.weddingvideos.model.bean.youtube;
  * "height": 90
  */
 
-public class Thumbnail {
+public class Thumbnail extends RealmObject {
     public static final String TYPE_DEFAULT = "default";
     public static final String TYPE_MEDIUM = "medium";
     public static final String TYPE_HIGH = "high";

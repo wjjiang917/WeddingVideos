@@ -1,6 +1,7 @@
 package com.pindiboy.weddingvideos.di.module;
 
 import com.pindiboy.weddingvideos.App;
+import com.pindiboy.weddingvideos.model.db.RealmHelper;
 import com.pindiboy.weddingvideos.model.http.ApiService;
 import com.pindiboy.weddingvideos.model.http.api.IpApi;
 import com.pindiboy.weddingvideos.model.http.api.YouTubeApi;
@@ -31,5 +32,11 @@ public class AppModule {
     @Singleton
     ApiService provideApiService(YouTubeApi youTubeApi, IpApi ipApi) {
         return new ApiService(youTubeApi,ipApi);
+    }
+
+    @Provides
+    @Singleton
+    RealmHelper provideRealmHelper() {
+        return new RealmHelper(application);
     }
 }

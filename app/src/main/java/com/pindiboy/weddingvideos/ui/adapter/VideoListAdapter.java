@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.model.bean.youtube.Item;
 import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
-import com.pindiboy.weddingvideos.model.bean.youtube.Thumbnail;
 import com.pindiboy.weddingvideos.util.DateUtil;
 import com.pindiboy.weddingvideos.util.ImageUtil;
 
@@ -24,7 +23,7 @@ public class VideoListAdapter extends BaseQuickAdapter<Item<ItemId>, BaseViewHol
 
     @Override
     protected void convert(BaseViewHolder helper, Item<ItemId> item) {
-        ImageUtil.load(mContext, item.getSnippet().getThumbnails().get(Thumbnail.TYPE_HIGH).getUrl(), (ImageView) helper.getView(R.id.video_image));
+        ImageUtil.load(mContext, item.getSnippet().getThumbnail(), (ImageView) helper.getView(R.id.video_image));
         helper.setText(R.id.video_title, item.getSnippet().getTitle());
         helper.setText(R.id.video_info, DateUtil.getNewFormat(item.getSnippet().getPublishedAt(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM, yyyy"));
     }

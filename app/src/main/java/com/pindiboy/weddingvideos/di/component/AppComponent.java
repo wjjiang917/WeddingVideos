@@ -4,6 +4,7 @@ import com.pindiboy.weddingvideos.App;
 import com.pindiboy.weddingvideos.di.module.AppModule;
 import com.pindiboy.weddingvideos.di.module.HttpModule;
 import com.pindiboy.weddingvideos.di.module.PageModule;
+import com.pindiboy.weddingvideos.model.db.RealmHelper;
 import com.pindiboy.weddingvideos.model.http.ApiService;
 
 import javax.inject.Singleton;
@@ -19,4 +20,6 @@ public interface AppComponent {
     App getContext();
 
     ApiService apiService();
+
+    RealmHelper realmHelper();
 }
