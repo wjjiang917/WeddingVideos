@@ -8,6 +8,7 @@ public interface Constant {
     // Constant
     String CACHE_NET = "net";
     String DEVELOPER_KEY = "AIzaSyD6RJNbrSDK3QheXOy2mCg056lLnMLwso0";
+    int MAX_FAVORITE = 100;
 
     int CHANNEL_VIDEOS_PAGE_SIZE = 10;
 

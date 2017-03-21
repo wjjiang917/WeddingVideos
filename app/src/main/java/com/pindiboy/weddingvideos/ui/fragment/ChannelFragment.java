@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -22,6 +23,7 @@ import com.pindiboy.weddingvideos.presenter.contract.ChannelContract;
 import com.pindiboy.weddingvideos.ui.BaseFragment;
 import com.pindiboy.weddingvideos.ui.activity.PlayerActivity;
 import com.pindiboy.weddingvideos.ui.adapter.VideoListAdapter;
+import com.pindiboy.weddingvideos.util.TipUtil;
 
 import butterknife.BindView;
 
@@ -34,6 +36,8 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
     RecyclerView rvVideoList;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.pb_video_list)
+    ProgressBar progressBar;
 
     private String channelId;
     private VideoListAdapter mAdapter;
@@ -83,10 +87,12 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
                             video.setFavourite(false);
                             mPresenter.removeFavorite(video.getVideoId());
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_border_red_24dp);
+                            TipUtil.showToast(mActivity, getString(R.string.removed_favorite));
                         } else {
                             video.setFavourite(true);
                             mPresenter.addFavorite(video);
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_red_24dp);
+                            TipUtil.showToast(mActivity, getString(R.string.added_favorite));
                         }
                         break;
                 }
@@ -110,12 +116,13 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             }
         });
 
-        mPresenter.getChannelVideos(channelId, pageToken);
+        mPresenter.getChannelVideos(channelId, "");
     }
 
     @Override
     public void onChannelVideosLoaded(YouTubeBean<ItemId> youTubeBean) {
         mAdapter.loadMoreComplete();
+        progressBar.setVisibility(View.GONE);
         if (swipeRefresh.isRefreshing()) {
             swipeRefresh.setRefreshing(false);
         }

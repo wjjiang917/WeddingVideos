@@ -41,6 +41,7 @@ public class Snippet extends RealmObject {
     private String videoId;
     private boolean isFavourite; // save to local db
     private String thumbnail;
+    private double order;
 
     public String getCategoryId() {
         return categoryId;
@@ -144,5 +145,13 @@ public class Snippet extends RealmObject {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public double getOrder() {
+        return order;
+    }
+
+    public void setOrder(double order) {
+        this.order = order;
     }
 }

@@ -30,4 +30,9 @@ public class FavoritePresenter extends RxPresenter<FavoriteContract.View> implem
     public void removeFavorite(String videoId) {
         mRealmHelper.deleteFavourite(videoId);
     }
+
+    @Override
+    public void updateFavorite(String videoId, double order) {
+        mRealmHelper.updateFavourite(videoId, order);
+    }
 }

@@ -16,7 +16,7 @@ public class SPUtil {
     }
 
     public static String getCountryCode() {
-        return getSP().getString(Constant.SP_KEY_COUNTRY_CODE, "PK");
+        return getSP().getString(Constant.SP_KEY_COUNTRY_CODE, "");
     }
 
     public static void setCountryCode(String countryCode) {

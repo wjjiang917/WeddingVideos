@@ -10,7 +10,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Menu;
 
-import com.pindiboy.weddingvideos.BuildConfig;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.IpInfo;
@@ -20,7 +19,6 @@ import com.pindiboy.weddingvideos.ui.BaseActivity;
 import com.pindiboy.weddingvideos.ui.ViewPagerAdapter;
 import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
 import com.pindiboy.weddingvideos.ui.fragment.FavoriteFragment;
-import com.pindiboy.weddingvideos.util.Logger;
 import com.pindiboy.weddingvideos.util.SPUtil;
 
 import java.util.ArrayList;
@@ -58,7 +56,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mToolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(mToolbar);
 
-        Logger.d("AES key: " + BuildConfig.AES_KEY);
+        // get country code
+        onIpInfoLoaded(null); // set default value
+        mPresenter.getIpInfo();
 
         // cricket
         ChannelFragment fragment = new ChannelFragment();

@@ -29,6 +29,7 @@ import com.pindiboy.weddingvideos.ui.adapter.VideoListAdapter;
 import com.pindiboy.weddingvideos.util.DateUtil;
 import com.pindiboy.weddingvideos.util.Logger;
 import com.pindiboy.weddingvideos.util.NumberUtil;
+import com.pindiboy.weddingvideos.util.TipUtil;
 import com.youtube.iframeplayer.AbstractYouTubeListener;
 import com.youtube.iframeplayer.YouTubePlayerButtonListener;
 import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
@@ -146,10 +147,12 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                             video.setFavourite(false);
                             mPresenter.removeFavorite(video.getVideoId());
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_border_red_24dp);
+                            TipUtil.showToast(mContext, getString(R.string.removed_favorite));
                         } else {
                             video.setFavourite(true);
                             mPresenter.addFavorite(video);
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_red_24dp);
+                            TipUtil.showToast(mContext, getString(R.string.added_favorite));
                         }
                         break;
                 }
@@ -177,6 +180,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     public void onVideoDetailLoaded(YouTubeBean<String> youTubeBean) {
         Item<String> item = youTubeBean.getItems().get(0);
         videoTitle.setText(item.getSnippet().getTitle());
+        videoDesc.setText(item.getSnippet().getDescription());
         videoDetail.setText("Published: " + DateUtil.getNewFormat(item.getSnippet().getPublishedAt(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM, yyyy") + " / Views: " + NumberUtil.format(item.getStatistics().getViewCount()));
     }
 

@@ -21,5 +21,7 @@ public interface FavoriteContract {
         void addFavorite(Snippet video);
 
         void removeFavorite(String videoId);
+
+        void updateFavorite(String videoId, double order);
     }
 }

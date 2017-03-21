@@ -2,7 +2,6 @@ package com.pindiboy.weddingvideos.ui.fragment;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,13 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
-import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;
@@ -25,6 +24,7 @@ import com.pindiboy.weddingvideos.presenter.contract.FavoriteContract;
 import com.pindiboy.weddingvideos.ui.BaseFragment;
 import com.pindiboy.weddingvideos.ui.activity.PlayerActivity;
 import com.pindiboy.weddingvideos.ui.adapter.FavoriteAdapter;
+import com.pindiboy.weddingvideos.util.TipUtil;
 
 import java.util.List;
 
@@ -39,6 +39,8 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter> implements
     RecyclerView rvVideoList;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.pb_video_list)
+    ProgressBar progressBar;
 
     private FavoriteAdapter mAdapter;
 
@@ -81,10 +83,12 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter> implements
                             video.setFavourite(false);
                             mPresenter.removeFavorite(video.getVideoId());
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_border_red_24dp);
+                            TipUtil.showToast(mActivity, getString(R.string.removed_favorite));
                         } else {
                             video.setFavourite(true);
                             mPresenter.addFavorite(video);
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_red_24dp);
+                            TipUtil.showToast(mActivity, getString(R.string.added_favorite));
                         }
                         break;
                 }
@@ -107,15 +111,19 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter> implements
         mAdapter.enableDragItem(itemTouchHelper, R.id.video_list_item, true);
         mAdapter.setOnItemDragListener(onItemDragListener);
 
-        // open slide to delete
-        mAdapter.enableSwipeItem();
-        mAdapter.setOnItemSwipeListener(onItemSwipeListener);
+        mPresenter.getFavorite();
+    }
 
+    @Override
+    public void onSupportVisible() {
+        super.onSupportVisible();
+        progressBar.setVisibility(View.VISIBLE);
         mPresenter.getFavorite();
     }
 
     @Override
     public void onFavoriteLoaded(List<Snippet> videos) {
+        progressBar.setVisibility(View.GONE);
         if (swipeRefresh.isRefreshing()) {
             swipeRefresh.setRefreshing(false);
         }
@@ -134,28 +142,21 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter> implements
 
         @Override
         public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
-        }
-    };
-
-    OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
-        @Override
-        public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-
-        }
-
-        @Override
-        public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
-
-        }
-
-        @Override
-        public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-
-        }
-
-        @Override
-        public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
-
+            // change video order
+            Snippet video = mAdapter.getData().get(pos);
+            double order = 1.0;
+            if (pos == 0) { // move to first
+                order += mAdapter.getData().get(1).getOrder();
+            } else if (pos == mAdapter.getData().size() - 1) {  // move to last one
+                double prevOrder = mAdapter.getData().get(pos - 1).getOrder();
+                order = (prevOrder + 0.0) / 2.0;
+            } else { //
+                double prevOrder = mAdapter.getData().get(pos - 1).getOrder();
+                double nextOrder = mAdapter.getData().get(pos + 1).getOrder();
+                order = (prevOrder + nextOrder) / 2.0;
+            }
+            video.setOrder(order);
+            mPresenter.updateFavorite(video.getVideoId(), order);
         }
     };
 }
