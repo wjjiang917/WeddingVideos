@@ -55,4 +55,14 @@ public class ChannelPresenter extends RxPresenter<ChannelContract.View> implemen
                     }
                 }));
     }
+
+    @Override
+    public void addFavorite(Snippet video) {
+        mRealmHelper.insertFavourite(video);
+    }
+
+    @Override
+    public void removeFavorite(String videoId) {
+        mRealmHelper.deleteFavourite(videoId);
+    }
 }

@@ -83,4 +83,14 @@ public class PlayerPresenter extends RxPresenter<PlayerContract.View> implements
                     }
                 }));
     }
+
+    @Override
+    public void addFavorite(Snippet video) {
+        mRealmHelper.insertFavourite(video);
+    }
+
+    @Override
+    public void removeFavorite(String videoId) {
+        mRealmHelper.deleteFavourite(videoId);
+    }
 }

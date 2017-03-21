@@ -13,12 +13,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.youtube.Item;
 import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
+import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;
 import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.PlayerPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.PlayerContract;
@@ -124,7 +126,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mContext, PlayerActivity.class);
-                intent.putExtra(Constant.INTENT_EXTRA_VIDEO_ID, mAdapter.getData().get(position).getId().getVideoId());
+                intent.putExtra(Constant.INTENT_EXTRA_VIDEO_ID, mAdapter.getData().get(position).getSnippet().getVideoId());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mContext, view, "video_item_view");
                     mContext.startActivity(intent, options.toBundle());
@@ -132,6 +134,25 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
                     mContext.startActivity(intent);
                 }
                 finish();
+            }
+        });
+        rvRelated.addOnItemTouchListener(new OnItemChildClickListener() {
+            @Override
+            public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.video_favorite_btn:
+                        Snippet video = mAdapter.getData().get(position).getSnippet();
+                        if (video.isFavourite()) {
+                            video.setFavourite(false);
+                            mPresenter.removeFavorite(video.getVideoId());
+                            ((ImageView) view).setImageResource(R.drawable.ic_favorite_border_red_24dp);
+                        } else {
+                            video.setFavourite(true);
+                            mPresenter.addFavorite(video);
+                            ((ImageView) view).setImageResource(R.drawable.ic_favorite_red_24dp);
+                        }
+                        break;
+                }
             }
         });
 

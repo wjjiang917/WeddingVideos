@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.pindiboy.weddingvideos.di.module.FragmentModule;
 import com.pindiboy.weddingvideos.di.scope.FragmentScope;
 import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
+import com.pindiboy.weddingvideos.ui.fragment.FavoriteFragment;
 
 import dagger.Component;
 
@@ -17,4 +18,6 @@ public interface FragmentComponent {
     Activity getActivity();
 
     void inject(ChannelFragment channelFragment);
+
+    void inject(FavoriteFragment favoriteFragment);
 }

@@ -2,26 +2,31 @@ package com.pindiboy.weddingvideos.ui.fragment;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnItemDragListener;
+import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
-import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
 import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;
-import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
-import com.pindiboy.weddingvideos.presenter.ChannelPresenter;
-import com.pindiboy.weddingvideos.presenter.contract.ChannelContract;
+import com.pindiboy.weddingvideos.presenter.FavoritePresenter;
+import com.pindiboy.weddingvideos.presenter.contract.FavoriteContract;
 import com.pindiboy.weddingvideos.ui.BaseFragment;
 import com.pindiboy.weddingvideos.ui.activity.PlayerActivity;
-import com.pindiboy.weddingvideos.ui.adapter.VideoListAdapter;
+import com.pindiboy.weddingvideos.ui.adapter.FavoriteAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -29,16 +34,13 @@ import butterknife.BindView;
  * Created by Jiangwenjin on 2017/3/14.
  */
 
-public class ChannelFragment extends BaseFragment<ChannelPresenter> implements ChannelContract.View {
+public class FavoriteFragment extends BaseFragment<FavoritePresenter> implements FavoriteContract.View {
     @BindView(R.id.rv_video_list)
     RecyclerView rvVideoList;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
 
-    private String channelId;
-    private VideoListAdapter mAdapter;
-    private boolean loadMore = false;
-    private String pageToken = ""; // for pagination
+    private FavoriteAdapter mAdapter;
 
     @Override
     protected int getLayoutResId() {
@@ -52,11 +54,7 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
 
     @Override
     protected void init() {
-        if (getArguments() != null) {
-            channelId = getArguments().getString(Constant.BUNDLE_CHANNEL_ID);
-        }
-
-        mAdapter = new VideoListAdapter(null);
+        mAdapter = new FavoriteAdapter(null);
         rvVideoList.setLayoutManager(new LinearLayoutManager(mContext));
         rvVideoList.setAdapter(mAdapter);
 
@@ -64,7 +62,7 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mContext, PlayerActivity.class);
-                intent.putExtra(Constant.INTENT_EXTRA_VIDEO_ID, mAdapter.getData().get(position).getSnippet().getVideoId());
+                intent.putExtra(Constant.INTENT_EXTRA_VIDEO_ID, mAdapter.getData().get(position).getVideoId());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, view, "video_item_view");
                     mContext.startActivity(intent, options.toBundle());
@@ -78,7 +76,7 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.video_favorite_btn:
-                        Snippet video = mAdapter.getData().get(position).getSnippet();
+                        Snippet video = mAdapter.getData().get(position);
                         if (video.isFavourite()) {
                             video.setFavourite(false);
                             mPresenter.removeFavorite(video.getVideoId());
@@ -93,43 +91,71 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             }
         });
 
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                loadMore = true;
-                mPresenter.getChannelVideos(channelId, pageToken);
-            }
-        });
-
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadMore = false;
-                pageToken = "";
-                mPresenter.getChannelVideos(channelId, pageToken);
+                mPresenter.getFavorite();
             }
         });
 
-        mPresenter.getChannelVideos(channelId, pageToken);
+        // swipe and drag
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(mAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(rvVideoList);
+
+        // open drag
+        mAdapter.enableDragItem(itemTouchHelper, R.id.video_list_item, true);
+        mAdapter.setOnItemDragListener(onItemDragListener);
+
+        // open slide to delete
+        mAdapter.enableSwipeItem();
+        mAdapter.setOnItemSwipeListener(onItemSwipeListener);
+
+        mPresenter.getFavorite();
     }
 
     @Override
-    public void onChannelVideosLoaded(YouTubeBean<ItemId> youTubeBean) {
-        mAdapter.loadMoreComplete();
+    public void onFavoriteLoaded(List<Snippet> videos) {
         if (swipeRefresh.isRefreshing()) {
             swipeRefresh.setRefreshing(false);
         }
 
-        // disable load more
-        if (null == youTubeBean.getItems() || youTubeBean.getItems().size() < Constant.CHANNEL_VIDEOS_PAGE_SIZE) {
-            mAdapter.loadMoreEnd();
+        mAdapter.setNewData(videos);
+    }
+
+    OnItemDragListener onItemDragListener = new OnItemDragListener() {
+        @Override
+        public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
         }
 
-        pageToken = youTubeBean.getNextPageToken();
-        if (loadMore) {
-            mAdapter.addData(youTubeBean.getItems());
-        } else {
-            mAdapter.setNewData(youTubeBean.getItems());
+        @Override
+        public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
         }
-    }
+
+        @Override
+        public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
+        }
+    };
+
+    OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
+        @Override
+        public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
+
+        }
+
+        @Override
+        public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
+
+        }
+
+        @Override
+        public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+
+        }
+
+        @Override
+        public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
+
+        }
+    };
 }

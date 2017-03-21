@@ -1,22 +1,22 @@
 package com.pindiboy.weddingvideos.presenter.contract;
 
-import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
 import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;
-import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.BasePresenter;
 import com.pindiboy.weddingvideos.ui.BaseView;
+
+import java.util.List;
 
 /**
  * Created by Jiangwenjin on 2017/3/4.
  */
 
-public interface ChannelContract {
+public interface FavoriteContract {
     interface View extends BaseView {
-        void onChannelVideosLoaded(YouTubeBean<ItemId> youTubeBean);
+        void onFavoriteLoaded(List<Snippet> videos);
     }
 
     interface Presenter extends BasePresenter<View> {
-        void getChannelVideos(String channelId, String pageToken);
+        void getFavorite();
 
         void addFavorite(Snippet video);
 

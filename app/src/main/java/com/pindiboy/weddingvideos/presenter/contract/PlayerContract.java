@@ -1,6 +1,7 @@
 package com.pindiboy.weddingvideos.presenter.contract;
 
 import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
+import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;
 import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
 import com.pindiboy.weddingvideos.presenter.BasePresenter;
 import com.pindiboy.weddingvideos.ui.BaseView;
@@ -20,5 +21,9 @@ public interface PlayerContract {
         void getVideoDetail(String videoId);
 
         void getRelatedVideos(String videoId, String pageToken);
+
+        void addFavorite(Snippet video);
+
+        void removeFavorite(String videoId);
     }
 }

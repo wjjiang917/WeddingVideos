@@ -24,7 +24,13 @@ public class VideoListAdapter extends BaseQuickAdapter<Item<ItemId>, BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, Item<ItemId> item) {
         ImageUtil.load(mContext, item.getSnippet().getThumbnail(), (ImageView) helper.getView(R.id.video_image));
-        helper.setText(R.id.video_title, item.getSnippet().getTitle());
-        helper.setText(R.id.video_info, DateUtil.getNewFormat(item.getSnippet().getPublishedAt(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM, yyyy"));
+        if (item.getSnippet().isFavourite()) {
+            helper.setImageResource(R.id.video_favorite_btn, R.drawable.ic_favorite_red_24dp);
+        } else {
+            helper.setImageResource(R.id.video_favorite_btn, R.drawable.ic_favorite_border_red_24dp);
+        }
+        helper.setText(R.id.video_title, item.getSnippet().getTitle())
+                .setText(R.id.video_info, DateUtil.getNewFormat(item.getSnippet().getPublishedAt(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM, yyyy"))
+                .addOnClickListener(R.id.video_favorite_btn);
     }
 }

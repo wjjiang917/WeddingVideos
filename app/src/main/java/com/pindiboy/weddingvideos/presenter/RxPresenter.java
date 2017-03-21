@@ -36,7 +36,6 @@ public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
     public void detachView() {
         this.mView = null;
         unSubscribe();
-        mRealmHelper.close();
     }
 
     protected void unSubscribe() {

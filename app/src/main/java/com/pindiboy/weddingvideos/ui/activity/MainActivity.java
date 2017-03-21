@@ -19,6 +19,7 @@ import com.pindiboy.weddingvideos.presenter.contract.MainContract;
 import com.pindiboy.weddingvideos.ui.BaseActivity;
 import com.pindiboy.weddingvideos.ui.ViewPagerAdapter;
 import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
+import com.pindiboy.weddingvideos.ui.fragment.FavoriteFragment;
 import com.pindiboy.weddingvideos.util.Logger;
 import com.pindiboy.weddingvideos.util.SPUtil;
 
@@ -28,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
-    private final String[] CHANNELS = new String[]{"Cricket", "Bollywood", "My"};
+    private final String[] CHANNELS = new String[]{"Cricket", "Bollywood", "Favorite"};
     private final String CRICKET_CHANNEL_ID = "UC1KX5wQ8yqJTByEsd2KhrLA";
     private final String BOLLYWOOD_CHANNEL_ID = "UC7ffQR6jK2T6wRDmNNNy3_w";
 
@@ -73,14 +74,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         fragment.setArguments(bundle);
         fragments.add(fragment);
 
+        // favorite
+        fragments.add(new FavoriteFragment());
+
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(mAdapter);
 
         mTabLayout.addTab(mTabLayout.newTab());
         mTabLayout.addTab(mTabLayout.newTab());
+        mTabLayout.addTab(mTabLayout.newTab());
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.getTabAt(0).setText(CHANNELS[0]);
         mTabLayout.getTabAt(1).setText(CHANNELS[1]);
+        mTabLayout.getTabAt(2).setText(CHANNELS[2]);
     }
 
     @Override
