@@ -36,7 +36,7 @@
 
     <style name="MaterialSearchViewStyle">
         <!-- Change icon for the suggestions -->
-        <item name="searchSuggestionIcon">@drawable/ic_history_24dp</item>
+        <!--<item name="searchSuggestionIcon">@drawable/ic_history_24dp</item>-->
 
         <!-- Change hint text color for edit text -->
         <item name="android:textColorHint">@color/searchHintColor</item>

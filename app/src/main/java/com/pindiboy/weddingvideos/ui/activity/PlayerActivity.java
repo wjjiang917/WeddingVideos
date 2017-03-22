@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,6 +29,7 @@ import com.pindiboy.weddingvideos.util.DateUtil;
 import com.pindiboy.weddingvideos.util.Logger;
 import com.pindiboy.weddingvideos.util.NumberUtil;
 import com.pindiboy.weddingvideos.util.TipUtil;
+import com.youtube.download.DownloadActivity;
 import com.youtube.iframeplayer.AbstractYouTubeListener;
 import com.youtube.iframeplayer.YouTubePlayerButtonListener;
 import com.youtube.iframeplayer.YouTubePlayerFullScreenListener;
@@ -41,7 +41,6 @@ import butterknife.OnClick;
 /**
  * Created by Jiangwenjin on 2017/3/15.
  */
-
 public class PlayerActivity extends BaseActivity<PlayerPresenter> implements PlayerContract.View {
     @BindView(R.id.youtube_player_view)
     YouTubePlayerView youTubePlayerView;
@@ -96,21 +95,12 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
             public void onYouTubePlayerEnterFullScreen() {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 fullScreenManager.enterFullScreen();
-
-                youTubePlayerView.setCustomActionRight(ContextCompat.getDrawable(PlayerActivity.this, R.drawable.ic_pause_36dp), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        youTubePlayerView.pauseVideo();
-                    }
-                });
             }
 
             @Override
             public void onYouTubePlayerExitFullScreen() {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 fullScreenManager.exitFullScreen();
-
-                youTubePlayerView.setCustomActionRight(ContextCompat.getDrawable(PlayerActivity.this, R.drawable.ic_pause_36dp), null);
             }
         });
 
@@ -230,11 +220,13 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     @OnClick(R.id.player_share)
     public void clickShare(View view) {
-
     }
 
     @OnClick(R.id.player_download)
     public void clickDownload(View view) {
+        Intent intent = new Intent(mContext, DownloadActivity.class);
+        intent.putExtra(DownloadActivity.INTENT_EXTRA_VIDEO_ID, videoId);
+        startActivity(intent);
     }
 
     @OnClick(R.id.player_favorite)
