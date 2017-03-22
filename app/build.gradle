@@ -64,6 +64,6 @@ dependencies {
     compile 'me.yokeyword:fragmentation:0.10.1'
     // Toast
     compile 'com.github.johnpersano:supertoasts:2.0'
-
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }

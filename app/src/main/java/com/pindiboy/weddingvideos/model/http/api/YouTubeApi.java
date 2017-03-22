@@ -18,13 +18,13 @@ public interface YouTubeApi {
     /**
      * get videos by channelId
      */
-    @GET("search?part=snippet&order=rating&maxResults=" + Constant.CHANNEL_VIDEOS_PAGE_SIZE + "&key=" + Constant.DEVELOPER_KEY)
+    @GET("search?part=snippet&order=relevance&maxResults=" + Constant.CHANNEL_VIDEOS_PAGE_SIZE + "&key=" + Constant.DEVELOPER_KEY)
     Observable<YouTubeBean<ItemId>> getChannelVideos(@Query("channelId") String channelId, @Query("pageToken") String pageToken);
 
     /**
      * get related videos by videoId
      */
-    @GET("search?part=snippet&type=video&order=rating&maxResults=" + Constant.CHANNEL_VIDEOS_PAGE_SIZE + "&key=" + Constant.DEVELOPER_KEY)
+    @GET("search?part=snippet&type=video&order=viewCount&maxResults=" + Constant.CHANNEL_VIDEOS_PAGE_SIZE + "&key=" + Constant.DEVELOPER_KEY)
     Observable<YouTubeBean<ItemId>> getRelatedVideos(@Query("relatedToVideoId") String videoId, @Query("pageToken") String pageToken);
 
     /**
@@ -32,4 +32,10 @@ public interface YouTubeApi {
      */
     @GET("videos?part=snippet,contentDetails,statistics&key=" + Constant.DEVELOPER_KEY)
     Observable<YouTubeBean<String>> getVideoDetail(@Query("id") String videoId);
+
+    /**
+     * search
+     */
+    @GET("search?part=snippet&order=relevance&maxResults=" + Constant.CHANNEL_VIDEOS_PAGE_SIZE + "&key=" + Constant.DEVELOPER_KEY)
+    Observable<YouTubeBean<ItemId>> search(@Query("q") String q, @Query("pageToken") String pageToken);
 }

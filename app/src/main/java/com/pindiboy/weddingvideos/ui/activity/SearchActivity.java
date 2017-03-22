@@ -1,11 +1,13 @@
-package com.pindiboy.weddingvideos.ui.fragment;
+package com.pindiboy.weddingvideos.ui.activity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -13,56 +15,77 @@ import android.widget.ProgressBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
 import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;
 import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
-import com.pindiboy.weddingvideos.presenter.ChannelPresenter;
-import com.pindiboy.weddingvideos.presenter.contract.ChannelContract;
-import com.pindiboy.weddingvideos.ui.BaseFragment;
-import com.pindiboy.weddingvideos.ui.activity.PlayerActivity;
+import com.pindiboy.weddingvideos.presenter.SearchPresenter;
+import com.pindiboy.weddingvideos.presenter.contract.SearchContract;
+import com.pindiboy.weddingvideos.ui.BaseActivity;
 import com.pindiboy.weddingvideos.ui.adapter.VideoListAdapter;
 import com.pindiboy.weddingvideos.util.TipUtil;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
- * Created by Jiangwenjin on 2017/3/14.
+ * Created by Jiangwenjin on 2017/3/22.
  */
 
-public class ChannelFragment extends BaseFragment<ChannelPresenter> implements ChannelContract.View {
+public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchContract.View {
     @BindView(R.id.rv_video_list)
     RecyclerView rvVideoList;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
     @BindView(R.id.pb_video_list)
     ProgressBar progressBar;
+    @BindView(R.id.search_view)
+    MaterialSearchView mSearchView;
 
-    private String channelId;
+    private String q;
     private VideoListAdapter mAdapter;
     private boolean loadMore = false;
     private String pageToken = ""; // for pagination
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.layout_video_list;
+        return R.layout.activity_search;
     }
 
     @Override
     protected void inject() {
-        getFragmentComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override
     protected void init() {
-        if (getArguments() != null) {
-            channelId = getArguments().getString(Constant.BUNDLE_CHANNEL_ID);
-        }
+        q = getIntent().getStringExtra(Constant.INTENT_EXTRA_SEARCH_Q);
+        mSearchView.showSearch(false);
+        mSearchView.setQuery(q, false);
+        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (TextUtils.isEmpty(query)) {
+                    return true;
+                }
+
+                q = query;
+                mPresenter.search(q, "");
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         mAdapter = new VideoListAdapter(null);
         rvVideoList.setLayoutManager(new LinearLayoutManager(mContext));
         rvVideoList.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.empty_view, rvVideoList);
 
         rvVideoList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -70,7 +93,7 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
                 Intent intent = new Intent(mContext, PlayerActivity.class);
                 intent.putExtra(Constant.INTENT_EXTRA_VIDEO_ID, mAdapter.getData().get(position).getSnippet().getVideoId());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mActivity, view, "video_item_view");
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(mContext, view, "video_item_view");
                     mContext.startActivity(intent, options.toBundle());
                 } else {
                     mContext.startActivity(intent);
@@ -87,12 +110,12 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
                             video.setFavourite(false);
                             mPresenter.removeFavorite(video.getVideoId());
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_border_red_24dp);
-                            TipUtil.showToast(mActivity, getString(R.string.removed_favorite));
+                            TipUtil.showToast(mContext, getString(R.string.removed_favorite));
                         } else {
                             video.setFavourite(true);
                             mPresenter.addFavorite(video);
                             ((ImageView) view).setImageResource(R.drawable.ic_favorite_red_24dp);
-                            TipUtil.showToast(mActivity, getString(R.string.added_favorite));
+                            TipUtil.showToast(mContext, getString(R.string.added_favorite));
                         }
                         break;
                 }
@@ -103,7 +126,7 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             @Override
             public void onLoadMoreRequested() {
                 loadMore = true;
-                mPresenter.getChannelVideos(channelId, pageToken);
+                mPresenter.search(q, pageToken);
             }
         });
 
@@ -112,15 +135,15 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             public void onRefresh() {
                 loadMore = false;
                 pageToken = "";
-                mPresenter.getChannelVideos(channelId, pageToken);
+                mPresenter.search(q, pageToken);
             }
         });
 
-        mPresenter.getChannelVideos(channelId, "");
+        mPresenter.search(q, "");
     }
 
     @Override
-    public void onChannelVideosLoaded(YouTubeBean<ItemId> youTubeBean) {
+    public void onSearchLoaded(YouTubeBean<ItemId> youTubeBean) {
         mAdapter.loadMoreComplete();
         progressBar.setVisibility(View.GONE);
         if (swipeRefresh.isRefreshing()) {
@@ -138,5 +161,16 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
         } else {
             mAdapter.setNewData(youTubeBean.getItems());
         }
+    }
+
+    @OnClick(com.miguelcatalan.materialsearchview.R.id.action_up_btn)
+    public void clickBack(View view) {
+        finish();
+    }
+
+    @Override
+    public void onBackPressedSupport() {
+        super.onBackPressedSupport();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right);
     }
 }

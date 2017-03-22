@@ -31,6 +31,7 @@
         <activity
             android:name=".ui.activity.PlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
+        <activity android:name=".ui.activity.SearchActivity" />
     </application>
 
 </manifest>

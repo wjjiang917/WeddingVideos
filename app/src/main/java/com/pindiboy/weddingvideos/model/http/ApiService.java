@@ -29,6 +29,10 @@ public class ApiService {
         return youTubeApi.getRelatedVideos(videoId, pageToken);
     }
 
+    public Observable<YouTubeBean<ItemId>> search(String q, String pageToken) {
+        return youTubeApi.search(q, pageToken);
+    }
+
     public Observable<YouTubeBean<String>> fetchVideoDetail(String videoId) {
         return youTubeApi.getVideoDetail(videoId);
     }

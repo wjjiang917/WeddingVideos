@@ -46,7 +46,7 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter> implements
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.fragment_video_list;
+        return R.layout.layout_video_list;
     }
 
     @Override
@@ -59,6 +59,7 @@ public class FavoriteFragment extends BaseFragment<FavoritePresenter> implements
         mAdapter = new FavoriteAdapter(null);
         rvVideoList.setLayoutManager(new LinearLayoutManager(mContext));
         rvVideoList.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.empty_view, rvVideoList);
 
         rvVideoList.addOnItemTouchListener(new OnItemClickListener() {
             @Override

@@ -33,4 +33,12 @@
     <style name="TextAppearance.ExpandedTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">26sp</item>
     </style>
+
+    <style name="MaterialSearchViewStyle">
+        <!-- Change icon for the suggestions -->
+        <item name="searchSuggestionIcon">@drawable/ic_history_24dp</item>
+
+        <!-- Change hint text color for edit text -->
+        <item name="android:textColorHint">@color/searchHintColor</item>
+    </style>
 </resources>

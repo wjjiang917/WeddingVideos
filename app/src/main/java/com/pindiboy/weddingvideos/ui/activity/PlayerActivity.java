@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;

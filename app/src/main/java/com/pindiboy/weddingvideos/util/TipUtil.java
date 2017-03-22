@@ -16,7 +16,7 @@ public class TipUtil {
                 .setText(msg)
                 .setTextColor(ContextCompat.getColor(activity, android.R.color.white))
                 .setColor(ContextCompat.getColor(activity, R.color.colorPrimary))
-                .setDuration(Style.DURATION_SHORT)
+                .setDuration(Style.DURATION_VERY_SHORT)
                 .setFrame(Style.FRAME_LOLLIPOP)
                 .setAnimations(Style.ANIMATIONS_POP)
                 .show();
@@ -27,7 +27,7 @@ public class TipUtil {
                 .setText(msg)
                 .setTextColor(ContextCompat.getColor(activity, android.R.color.white))
                 .setColor(ContextCompat.getColor(activity, R.color.colorPrimary))
-                .setDuration(Style.DURATION_SHORT)
+                .setDuration(Style.DURATION_VERY_SHORT)
                 .setFrame(Style.FRAME_KITKAT)
                 .setAnimations(Style.ANIMATIONS_POP)
                 .show();
