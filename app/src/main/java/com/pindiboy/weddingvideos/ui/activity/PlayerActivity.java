@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.pindiboy.weddingvideos.FullScreenManager;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
@@ -52,6 +51,8 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     TextView videoDetail;
     @BindView(R.id.video_description)
     TextView videoDesc;
+    @BindView(R.id.player_favorite)
+    ImageView playerFavorite;
     @BindView(R.id.video_related)
     RecyclerView rvRelated;
     @BindView(R.id.video_related_progress)
@@ -62,6 +63,7 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     private String pageToken = ""; // for pagination
     private FullScreenManager fullScreenManager;
     private String videoId;
+    private Snippet video;
 
     @Override
     protected int getLayoutResId() {
@@ -180,6 +182,14 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     @Override
     public void onVideoDetailLoaded(YouTubeBean<String> youTubeBean) {
         Item<String> item = youTubeBean.getItems().get(0);
+        video = item.getSnippet();
+
+        if (item.getSnippet().isFavourite()) {
+            playerFavorite.setImageResource(R.drawable.ic_favorite_red_24dp);
+        } else {
+            playerFavorite.setImageResource(R.drawable.ic_favorite_border_red_24dp);
+        }
+        playerFavorite.setVisibility(View.VISIBLE);
         videoTitle.setText(item.getSnippet().getTitle());
         videoDesc.setText(item.getSnippet().getDescription());
         videoDetail.setText("Published: " + DateUtil.getNewFormat(item.getSnippet().getPublishedAt(), "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "dd MMM, yyyy") + " / Views: " + NumberUtil.format(item.getStatistics().getViewCount()));
@@ -225,5 +235,20 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     @OnClick(R.id.player_download)
     public void clickDownload(View view) {
+    }
+
+    @OnClick(R.id.player_favorite)
+    public void clickFavorite(View view) {
+        if (video.isFavourite()) {
+            video.setFavourite(false);
+            mPresenter.removeFavorite(video.getVideoId());
+            ((ImageView) view).setImageResource(R.drawable.ic_favorite_border_red_24dp);
+            TipUtil.showToast(mContext, getString(R.string.removed_favorite));
+        } else {
+            video.setFavourite(true);
+            mPresenter.addFavorite(video);
+            ((ImageView) view).setImageResource(R.drawable.ic_favorite_red_24dp);
+            TipUtil.showToast(mContext, getString(R.string.added_favorite));
+        }
     }
 }
