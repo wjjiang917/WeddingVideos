@@ -42,7 +42,7 @@ public class DownloadActivity extends Activity {
             return;
         }
 
-        getYoutubeDownloadUrl("http://youtube.com/watch?v" + videoId);
+        getYoutubeDownloadUrl("http://youtube.com/watch?v=" + videoId);
     }
 
     private void getYoutubeDownloadUrl(String youtubeLink) {
@@ -71,7 +71,7 @@ public class DownloadActivity extends Activity {
                     }
                 }
             }
-        }.extract(youtubeLink, true, false);
+        }.extract(youtubeLink, false, false);
     }
 
     private void addButtonToMainLayout(final String videoTitle, final YtFile ytfile) {

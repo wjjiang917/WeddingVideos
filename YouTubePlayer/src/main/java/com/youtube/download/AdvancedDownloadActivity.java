@@ -55,7 +55,7 @@ public class AdvancedDownloadActivity extends Activity {
             return;
         }
 
-        getYoutubeDownloadUrl("http://youtube.com/watch?v" + videoId);
+        getYoutubeDownloadUrl("http://youtube.com/watch?v=" + videoId);
     }
 
     private void getYoutubeDownloadUrl(String youtubeLink) {
