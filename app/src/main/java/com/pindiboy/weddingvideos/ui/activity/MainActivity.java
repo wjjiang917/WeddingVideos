@@ -31,7 +31,8 @@ import java.util.List;
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
-    private final String[] CHANNELS = new String[]{"Cricket", "Bollywood", "Favorite"};
+    private final String[] CHANNELS = new String[]{"Wedding", "Cricket", "Bollywood", "Favorite"};
+    private final String WEDDING_CHANNEL_ID = "UCm7NDjrUTNYgf06YSbR4oaA";
     private final String CRICKET_CHANNEL_ID = "UC1KX5wQ8yqJTByEsd2KhrLA";
     private final String BOLLYWOOD_CHANNEL_ID = "UC7ffQR6jK2T6wRDmNNNy3_w";
 
@@ -69,9 +70,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         // check storage permission
         mPresenter.checkPermissions(new RxPermissions(this));
 
-        // cricket
+        // wedding
         ChannelFragment fragment = new ChannelFragment();
         Bundle bundle = new Bundle();
+        bundle.putString(Constant.BUNDLE_CHANNEL_ID, WEDDING_CHANNEL_ID);
+        fragment.setArguments(bundle);
+        fragments.add(fragment);
+
+        // cricket
+        fragment = new ChannelFragment();
+        bundle = new Bundle();
         bundle.putString(Constant.BUNDLE_CHANNEL_ID, CRICKET_CHANNEL_ID);
         fragment.setArguments(bundle);
         fragments.add(fragment);
