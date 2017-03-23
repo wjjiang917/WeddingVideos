@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
@@ -24,6 +23,7 @@ import com.pindiboy.weddingvideos.ui.ViewPagerAdapter;
 import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
 import com.pindiboy.weddingvideos.ui.fragment.FavoriteFragment;
 import com.pindiboy.weddingvideos.util.SPUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +65,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         // get country code
         onIpInfoLoaded(null); // set default value
         mPresenter.getIpInfo();
+
+        // check storage permission
+        mPresenter.checkPermissions(new RxPermissions(this));
 
         // cricket
         ChannelFragment fragment = new ChannelFragment();

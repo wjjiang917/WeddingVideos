@@ -12,6 +12,8 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Base64;
 
+import com.pindiboy.weddingvideos.BuildConfig;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,7 +26,7 @@ import java.util.Random;
 
 public class FileUtil {
     public static String getScreenshotDir() {
-        String dir = Environment.getExternalStorageDirectory().getPath() + "/StreamKar/Screenshots/";
+        String dir = Environment.getExternalStorageDirectory().getPath() + "/" + BuildConfig.APPLICATION_ID + "/Screenshots/";
         File file = new File(dir);
         if (!file.exists() && !file.mkdirs()) {
             return null;
@@ -34,7 +36,7 @@ public class FileUtil {
     }
 
     public static String getScreenRecordDir() {
-        String dir = Environment.getExternalStorageDirectory().getPath() + "/StreamKar/Videos/";
+        String dir = Environment.getExternalStorageDirectory().getPath() + "/" + BuildConfig.APPLICATION_ID + "/Videos/";
         File file = new File(dir);
         if (!file.exists() && !file.mkdirs()) {
             return null;

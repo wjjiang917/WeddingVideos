@@ -29,7 +29,7 @@ public class Logger {
 
     private static boolean isSaveLog = true;
 
-    public static String dir = Environment.getExternalStorageDirectory().getPath() + "/StreamKar/log/";
+    public static String dir = Environment.getExternalStorageDirectory().getPath() + "/" + BuildConfig.APPLICATION_ID + "/log/";
 
     private Logger() {
     }

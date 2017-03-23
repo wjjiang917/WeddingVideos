@@ -13,9 +13,6 @@ import com.pindiboy.weddingvideos.util.Logger;
 
 import javax.inject.Inject;
 
-import rx.functions.Action1;
-import rx.functions.Func1;
-
 /**
  * Created by Jiangwenjin on 2017/3/4.
  */
@@ -31,29 +28,17 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
     public void search(String q, String pageToken) {
         addSubscribe(mApiService.search(q, pageToken)
                 .compose(RxUtil.<YouTubeBean<ItemId>>rxSchedulerHelper())
-                .map(new Func1<YouTubeBean<ItemId>, YouTubeBean<ItemId>>() {
-                    @Override
-                    public YouTubeBean<ItemId> call(YouTubeBean<ItemId> youTubeBean) {
-                        for (Item<ItemId> item : youTubeBean.getItems()) {
-                            Snippet snippet = item.getSnippet();
-                            snippet.setVideoId(item.getId().getVideoId());
-                            snippet.setThumbnail(item.getSnippet().getThumbnails().get(Thumbnail.TYPE_HIGH).getUrl());
-                            snippet.setFavourite(mRealmHelper.queryFavourite(item.getId().getVideoId()));
-                        }
-                        return youTubeBean;
+                .map(youTubeBean -> {
+                    for (Item<ItemId> item : youTubeBean.getItems()) {
+                        Snippet snippet = item.getSnippet();
+                        snippet.setVideoId(item.getId().getVideoId());
+                        snippet.setThumbnail(item.getSnippet().getThumbnails().get(Thumbnail.TYPE_HIGH).getUrl());
+                        snippet.setFavourite(mRealmHelper.queryFavourite(item.getId().getVideoId()));
                     }
+                    return youTubeBean;
                 })
-                .subscribe(new Action1<YouTubeBean<ItemId>>() {
-                    @Override
-                    public void call(YouTubeBean<ItemId> youTubeBean) {
-                        mView.onSearchLoaded(youTubeBean);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Logger.e("", throwable);
-                    }
-                }));
+                .subscribe(youTubeBean -> mView.onSearchLoaded(youTubeBean),
+                        throwable -> Logger.e("", throwable)));
     }
 
     @Override
