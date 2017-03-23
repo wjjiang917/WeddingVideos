@@ -24,6 +24,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.0'
 
     compile 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
-    compile 'org.aspectj:aspectjrt:1.8.8'
-    compile 'com.googlecode.mp4parser:isoparser:1.1.17'
 }

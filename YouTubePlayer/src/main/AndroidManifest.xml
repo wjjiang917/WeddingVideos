@@ -14,20 +14,5 @@
             android:excludeFromRecents="true"
             android:taskAffinity=""
             android:theme="@style/YouTubeAppTheme" />
-
-        <activity
-            android:name="com.youtube.download.AdvancedDownloadActivity"
-            android:excludeFromRecents="true"
-            android:taskAffinity=""
-            android:theme="@style/YouTubeAppTheme" />
-
-        <receiver
-            android:name="com.youtube.download.DownloadFinishedReceiver"
-            android:exported="true"
-            android:process=".downloadFinished">
-            <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-            </intent-filter>
-        </receiver>
     </application>
 </manifest>
