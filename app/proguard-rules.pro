@@ -42,7 +42,7 @@
 #将文件来源重命名为“SourceFile”字符串
 -renamesourcefileattribute SourceFile
 #保留行号
--keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable,Deprecated
 #保持泛型
 -keepattributes Signature
 
@@ -54,6 +54,23 @@
     private void readObject(java.io.ObjectInputStream);
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
+}
+
+# 四大组件
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class * extends android.os.IInterface
+
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
 #Fragment不需要在AndroidManifest.xml中注册，需要额外保护下
@@ -128,20 +145,6 @@
 }
 -dontnote rx.internal.util.PlatformDependent
 
-# ------------------------ Gson
-# For using GSON @Expose annotation
--keepattributes *Annotation*
-# Gson specific classes
--keep class sun.misc.Unsafe { *; }
-#-keep class com.google.gson.stream.** { *; }
-# Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { *; }
-# Prevent proguard from stripping interface information from TypeAdapterFactory,
-# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
-
 # ------------------------ BaseRecyclerViewAdapterHelper
 -keep class com.chad.library.adapter.** { *; }
 
@@ -154,3 +157,6 @@
 -dontwarn com.googlecode.mp4parser.authoring.tracks.ttml.**
 
 -dontwarn java.lang.invoke.*
+
+# 项目代码
+-keep class com.pindiboy.weddingvideos.model.bean.** { *; }

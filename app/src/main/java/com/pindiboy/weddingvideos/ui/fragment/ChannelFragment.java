@@ -99,21 +99,14 @@ public class ChannelFragment extends BaseFragment<ChannelPresenter> implements C
             }
         });
 
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                loadMore = true;
-                mPresenter.getChannelVideos(channelId, pageToken);
-            }
+        mAdapter.setOnLoadMoreListener(() -> {
+            loadMore = true;
+            mPresenter.getChannelVideos(channelId, pageToken);
         });
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadMore = false;
-                pageToken = "";
-                mPresenter.getChannelVideos(channelId, pageToken);
-            }
+        swipeRefresh.setOnRefreshListener(() -> {
+            loadMore = false;
+            mPresenter.getChannelVideos(channelId, "");
         });
 
         mPresenter.getChannelVideos(channelId, "");

@@ -88,7 +88,7 @@ public class AdvancedDownloadActivity extends Activity {
                     addButtonToMainLayout(vMeta.getTitle(), files);
                 }
             }
-        }.extract(youtubeLink, true, false);
+        }.extract(youtubeLink, false, false);
     }
 
     private void addFormatToList(YtFile ytFile, SparseArray<YtFile> ytFiles) {
