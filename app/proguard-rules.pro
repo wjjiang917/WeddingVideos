@@ -150,13 +150,7 @@
 
 -keep class java.awt.** { *; }
 
-# ------------------------ mp4parser
--keep class * implements com.coremedia.iso.boxes.Box { *; }
--dontwarn com.coremedia.iso.boxes.**
--dontwarn com.googlecode.mp4parser.authoring.tracks.mjpeg.**
--dontwarn com.googlecode.mp4parser.authoring.tracks.ttml.**
-
 -dontwarn java.lang.invoke.*
 
 # 项目代码
--keep class com.pindiboy.weddingvideos.model.bean.** { *; }
+-keep class com.pindiboy.weddingvideos.model.** { *; }
