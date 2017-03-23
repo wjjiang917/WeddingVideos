@@ -60,7 +60,6 @@ public class AdvancedDownloadActivity extends Activity {
 
     private void getYoutubeDownloadUrl(String youtubeLink) {
         new YouTubeExtractor(this) {
-
             @Override
             public void onExtractionComplete(SparseArray<YtFile> ytFiles, VideoMeta vMeta) {
                 mainProgressBar.setVisibility(View.GONE);

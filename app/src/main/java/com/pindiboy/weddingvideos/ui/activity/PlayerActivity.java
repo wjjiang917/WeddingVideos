@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -50,6 +51,8 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     TextView videoDetail;
     @BindView(R.id.video_description)
     TextView videoDesc;
+    @BindView(R.id.video_description_layout)
+    ScrollView videoDescLayout;
     @BindView(R.id.player_favorite)
     ImageView playerFavorite;
     @BindView(R.id.video_related)
@@ -204,11 +207,11 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
 
     @OnClick(R.id.video_description_btn)
     public void toggleDesc(View view) {
-        if (videoDesc.getVisibility() == View.GONE) {
-            videoDesc.setVisibility(View.VISIBLE);
+        if (videoDescLayout.getVisibility() == View.GONE) {
+            videoDescLayout.setVisibility(View.VISIBLE);
             ((ImageView) view).setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
         } else {
-            videoDesc.setVisibility(View.GONE);
+            videoDescLayout.setVisibility(View.GONE);
             ((ImageView) view).setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
         }
     }
@@ -226,6 +229,9 @@ public class PlayerActivity extends BaseActivity<PlayerPresenter> implements Pla
     public void clickDownload(View view) {
         Intent intent = new Intent(mContext, DownloadActivity.class);
         intent.putExtra(DownloadActivity.INTENT_EXTRA_VIDEO_ID, videoId);
+        intent.putExtra(DownloadActivity.INTENT_EXTRA_DOWNLOADDASH, false);
+        intent.putExtra(DownloadActivity.INTENT_EXTRA_INCLUDEWEBM, false);
+        intent.putExtra(DownloadActivity.INTENT_EXTRA_PARSEDASHMANIFEST, false);
         startActivity(intent);
     }
 

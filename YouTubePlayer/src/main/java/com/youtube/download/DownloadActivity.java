@@ -24,6 +24,13 @@ import at.huber.youtubeExtractor.YtFile;
  */
 public class DownloadActivity extends Activity {
     public static String INTENT_EXTRA_VIDEO_ID = "intent_extra_video_id";
+    public static String INTENT_EXTRA_PARSEDASHMANIFEST = "intent_extra_parsedashmanifest";
+    public static String INTENT_EXTRA_DOWNLOADDASH = "intent_extra_downloaddash";
+    public static String INTENT_EXTRA_INCLUDEWEBM = "intent_extra_includewebm";
+
+    private boolean parseDashManifest;
+    private boolean downloadDash;
+    private boolean includeWebM;
     private String videoId;
     private LinearLayout mainLayout;
     private ProgressBar mainProgressBar;
@@ -32,6 +39,9 @@ public class DownloadActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         videoId = getIntent().getStringExtra(INTENT_EXTRA_VIDEO_ID);
+        parseDashManifest = getIntent().getBooleanExtra(INTENT_EXTRA_PARSEDASHMANIFEST, false);
+        downloadDash = getIntent().getBooleanExtra(INTENT_EXTRA_DOWNLOADDASH, false);
+        includeWebM = getIntent().getBooleanExtra(INTENT_EXTRA_INCLUDEWEBM, false);
 
         setContentView(R.layout.activity_download);
         mainLayout = (LinearLayout) findViewById(R.id.main_layout);
@@ -71,10 +81,14 @@ public class DownloadActivity extends Activity {
                     }
                 }
             }
-        }.extract(youtubeLink, false, false);
+        }.extract(youtubeLink, parseDashManifest, includeWebM);
     }
 
     private void addButtonToMainLayout(final String videoTitle, final YtFile ytfile) {
+        if (ytfile.getFormat().isDashContainer() && !downloadDash) {
+            return;
+        }
+
         // Display some buttons and let the user choose the format
         String btnText = (ytfile.getFormat().getHeight() == -1) ? "Audio " +
                 ytfile.getFormat().getAudioBitrate() + " kbit/s" :
