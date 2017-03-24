@@ -2,6 +2,7 @@ package com.pindiboy.weddingvideos.ui.activity;
 
 import android.content.Intent;
 
+import com.google.gson.Gson;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.ChannelConfig;
@@ -42,8 +43,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements Spl
 
     @Override
     public void onChannelsLoaded(List<ChannelConfig> channels) {
-//        goMain(new Gson().toJson(channels));
-        onChannelsFailed();
+        goMain(new Gson().toJson(channels));
     }
 
     @Override
