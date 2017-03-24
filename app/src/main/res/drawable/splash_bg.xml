@@ -5,7 +5,7 @@
             android:shape="rectangle">
 
             <gradient
-                android:endColor="#01579B"
+                android:endColor="#c4302b"
                 android:gradientRadius="1000"
                 android:startColor="#E1F5FE"
                 android:type="radial" />
@@ -14,7 +14,7 @@
 
     <item
         android:bottom="214dp"
-        android:drawable="@mipmap/ic_launcher"
+        android:drawable="@mipmap/web_hi_res_512"
         android:gravity="center"
         android:left="100dp"
         android:right="100dp"
