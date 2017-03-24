@@ -165,6 +165,7 @@
         android:background="@drawable/background_item_selected"
         android:clickable="true"
         android:padding="8dp"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_share_24dp" />
 
     <ImageView

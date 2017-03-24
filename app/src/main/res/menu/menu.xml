@@ -7,6 +7,7 @@
         android:menuCategory="secondary"
         android:orderInCategory="1"
         android:title="Share"
+        android:visible="false"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_search"

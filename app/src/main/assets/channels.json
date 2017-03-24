@@ -1,17 +1,27 @@
 [
-    {
-        "title": "Wedding",
-        "order": 1,
-        "channelId": "UCm7NDjrUTNYgf06YSbR4oaA"
-    },
-    {
-        "title": "Fails",
-        "order": 2,
-        "channelId": "UCp6wNwuhDbC3hrTtrJyffRw"
-    },
-    {
-        "title": "Bollywood",
-        "order": 3,
-        "channelId": "UC7ffQR6jK2T6wRDmNNNy3_w"
-    }
+  {
+    "title": "Hot",
+    "order": 1,
+    "channelId": "UC14TyC75fdTJHwjB4hSNbhQ"
+  },
+  {
+    "title": "Guide",
+    "order": 2,
+    "channelId": "UCEkYhk8k8wg1liJDp9N8vVg"
+  },
+  {
+    "title": "Health",
+    "order": 3,
+    "channelId": "UC9Kgn1oa2K7iwVSOzf68S5g"
+  },
+  {
+    "title": "Housewife",
+    "order": 4,
+    "channelId": "UCFJJ9_1GdyhbfpUyZTvIotA"
+  },
+  {
+    "title": "Midnight",
+    "order": 5,
+    "channelId": "UC7inblWZMGVaq6Y2nNjuZaw"
+  }
 ]
