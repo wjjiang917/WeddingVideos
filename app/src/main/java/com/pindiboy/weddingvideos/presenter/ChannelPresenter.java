@@ -27,7 +27,7 @@ public class ChannelPresenter extends RxPresenter<ChannelContract.View> implemen
     @Override
     public void getChannelVideos(String channelId, String pageToken) {
         addSubscribe(mApiService.fetchChannelVideos(channelId, pageToken)
-                .compose(RxUtil.<YouTubeBean<ItemId>>rxSchedulerHelper())
+                .compose(RxUtil.rxSchedulerHelper())
                 .map(youTubeBean -> {
                     for (Item<ItemId> item : youTubeBean.getItems()) {
                         Snippet snippet = item.getSnippet();

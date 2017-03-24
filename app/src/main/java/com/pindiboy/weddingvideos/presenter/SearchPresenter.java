@@ -27,7 +27,7 @@ public class SearchPresenter extends RxPresenter<SearchContract.View> implements
     @Override
     public void search(String q, String pageToken) {
         addSubscribe(mApiService.search(q, pageToken)
-                .compose(RxUtil.<YouTubeBean<ItemId>>rxSchedulerHelper())
+                .compose(RxUtil.rxSchedulerHelper())
                 .map(youTubeBean -> {
                     for (Item<ItemId> item : youTubeBean.getItems()) {
                         Snippet snippet = item.getSnippet();

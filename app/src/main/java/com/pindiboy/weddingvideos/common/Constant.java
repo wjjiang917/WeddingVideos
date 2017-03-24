@@ -20,4 +20,5 @@ public interface Constant {
     String BUNDLE_CHANNEL_ID = "bundle_channel_id";
     String INTENT_EXTRA_VIDEO_ID = "intent_extra_video_id";
     String INTENT_EXTRA_SEARCH_Q = "intent_extra_search_q";
+    String INTENT_EXTRA_CHANNELS = "intent_extra_channels";
 }

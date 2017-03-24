@@ -12,9 +12,12 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.pindiboy.weddingvideos.R;
 import com.pindiboy.weddingvideos.common.Constant;
+import com.pindiboy.weddingvideos.model.bean.ChannelConfig;
 import com.pindiboy.weddingvideos.model.bean.IpInfo;
 import com.pindiboy.weddingvideos.presenter.MainPresenter;
 import com.pindiboy.weddingvideos.presenter.contract.MainContract;
@@ -23,19 +26,14 @@ import com.pindiboy.weddingvideos.ui.ViewPagerAdapter;
 import com.pindiboy.weddingvideos.ui.fragment.ChannelFragment;
 import com.pindiboy.weddingvideos.ui.fragment.FavoriteFragment;
 import com.pindiboy.weddingvideos.util.SPUtil;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
-    private final String[] CHANNELS = new String[]{"Wedding", "Cricket", "Bollywood", "Favorite"};
-    private final String WEDDING_CHANNEL_ID = "UCm7NDjrUTNYgf06YSbR4oaA";
-    private final String CRICKET_CHANNEL_ID = "UC1KX5wQ8yqJTByEsd2KhrLA";
-    private final String BOLLYWOOD_CHANNEL_ID = "UC7ffQR6jK2T6wRDmNNNy3_w";
-
     @BindView(R.id.tab_main)
     TabLayout mTabLayout;
     @BindView(R.id.viewpager_main)
@@ -47,6 +45,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     private ViewPagerAdapter mAdapter;
     private List<Fragment> fragments = new ArrayList<>();
+    List<ChannelConfig> channels;
 
     @Override
     protected int getLayoutResId() {
@@ -60,6 +59,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     protected void init() {
+        channels = new Gson().fromJson(getIntent().getStringExtra(Constant.INTENT_EXTRA_CHANNELS), new TypeToken<List<ChannelConfig>>() {
+        }.getType());
+        Collections.sort(channels, (c1, c2) -> c1.getOrder() - c2.getOrder());
+
         mToolbar.setTitle(getString(R.string.app_name));
         setSupportActionBar(mToolbar);
 
@@ -67,43 +70,30 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         onIpInfoLoaded(null); // set default value
         mPresenter.getIpInfo();
 
-        // check storage permission
-        mPresenter.checkPermissions(new RxPermissions(this));
+        ChannelFragment fragment;
+        Bundle bundle;
+        for (int i = 0; i < channels.size(); i++) {
+            fragment = new ChannelFragment();
+            bundle = new Bundle();
+            bundle.putString(Constant.BUNDLE_CHANNEL_ID, channels.get(i).getChannelId());
+            fragment.setArguments(bundle);
+            fragments.add(fragment);
 
-        // wedding
-        ChannelFragment fragment = new ChannelFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constant.BUNDLE_CHANNEL_ID, WEDDING_CHANNEL_ID);
-        fragment.setArguments(bundle);
-        fragments.add(fragment);
-
-        // cricket
-        fragment = new ChannelFragment();
-        bundle = new Bundle();
-        bundle.putString(Constant.BUNDLE_CHANNEL_ID, CRICKET_CHANNEL_ID);
-        fragment.setArguments(bundle);
-        fragments.add(fragment);
-
-        // bollywood
-        fragment = new ChannelFragment();
-        bundle = new Bundle();
-        bundle.putString(Constant.BUNDLE_CHANNEL_ID, BOLLYWOOD_CHANNEL_ID);
-        fragment.setArguments(bundle);
-        fragments.add(fragment);
+            mTabLayout.addTab(mTabLayout.newTab());
+        }
 
         // favorite
         fragments.add(new FavoriteFragment());
 
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(mAdapter);
-
-        mTabLayout.addTab(mTabLayout.newTab());
-        mTabLayout.addTab(mTabLayout.newTab());
-        mTabLayout.addTab(mTabLayout.newTab());
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.getTabAt(0).setText(CHANNELS[0]);
-        mTabLayout.getTabAt(1).setText(CHANNELS[1]);
-        mTabLayout.getTabAt(2).setText(CHANNELS[2]);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        // must set title after set viewpager
+        for (int i = 0; i < channels.size(); i++) {
+            mTabLayout.getTabAt(i).setText(channels.get(i).getTitle());
+        }
+        mTabLayout.getTabAt(channels.size()).setText("Favorite");
 
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override

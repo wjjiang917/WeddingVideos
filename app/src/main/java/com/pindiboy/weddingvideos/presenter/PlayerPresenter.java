@@ -27,7 +27,7 @@ public class PlayerPresenter extends RxPresenter<PlayerContract.View> implements
     @Override
     public void getVideoDetail(String videoId) {
         addSubscribe(mApiService.fetchVideoDetail(videoId)
-                .compose(RxUtil.<YouTubeBean<String>>rxSchedulerHelper())
+                .compose(RxUtil.rxSchedulerHelper())
                 .map(youTubeBean -> {
                     Item<String> item = youTubeBean.getItems().get(0);
                     Snippet snippet = item.getSnippet();
@@ -43,7 +43,7 @@ public class PlayerPresenter extends RxPresenter<PlayerContract.View> implements
     @Override
     public void getRelatedVideos(String videoId, String pageToken) {
         addSubscribe(mApiService.fetchRelatedVideos(videoId, pageToken)
-                .compose(RxUtil.<YouTubeBean<ItemId>>rxSchedulerHelper())
+                .compose(RxUtil.rxSchedulerHelper())
                 .map(youTubeBean -> {
                     for (Item<ItemId> item : youTubeBean.getItems()) {
                         Snippet snippet = item.getSnippet();

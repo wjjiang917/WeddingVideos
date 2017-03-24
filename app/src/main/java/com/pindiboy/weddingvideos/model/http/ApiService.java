@@ -1,10 +1,14 @@
 package com.pindiboy.weddingvideos.model.http;
 
+import com.pindiboy.weddingvideos.model.bean.ChannelConfig;
 import com.pindiboy.weddingvideos.model.bean.IpInfo;
 import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
 import com.pindiboy.weddingvideos.model.bean.youtube.YouTubeBean;
+import com.pindiboy.weddingvideos.model.http.api.ChannelApi;
 import com.pindiboy.weddingvideos.model.http.api.IpApi;
 import com.pindiboy.weddingvideos.model.http.api.YouTubeApi;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -15,10 +19,12 @@ import rx.Observable;
 public class ApiService {
     private YouTubeApi youTubeApi;
     private IpApi ipApi;
+    private ChannelApi channelApi;
 
-    public ApiService(YouTubeApi youTubeApi, IpApi ipApi) {
+    public ApiService(YouTubeApi youTubeApi, IpApi ipApi, ChannelApi channelApi) {
         this.youTubeApi = youTubeApi;
         this.ipApi = ipApi;
+        this.channelApi = channelApi;
     }
 
     public Observable<YouTubeBean<ItemId>> fetchChannelVideos(String channelId, String pageToken) {
@@ -39,5 +45,9 @@ public class ApiService {
 
     public Observable<IpInfo> fetchIpInfo() {
         return ipApi.getIpInfo();
+    }
+
+    public Observable<List<ChannelConfig>> fetchChannels() {
+        return channelApi.getChannels();
     }
 }

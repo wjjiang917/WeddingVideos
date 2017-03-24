@@ -4,6 +4,7 @@ import com.pindiboy.weddingvideos.App;
 import com.pindiboy.weddingvideos.BuildConfig;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.di.qualifier.ServiceType;
+import com.pindiboy.weddingvideos.model.http.api.ChannelApi;
 import com.pindiboy.weddingvideos.model.http.api.IpApi;
 import com.pindiboy.weddingvideos.model.http.api.VideoApi;
 import com.pindiboy.weddingvideos.model.http.api.YouTubeApi;
@@ -92,6 +93,19 @@ public class HttpModule {
     @Provides
     IpApi provideIpService(@ServiceType("Ip") Retrofit retrofit) {
         return retrofit.create(IpApi.class);
+    }
+
+    @Singleton
+    @Provides
+    @ServiceType("Channel")
+    Retrofit provideChannelRetrofit(Retrofit.Builder builder, OkHttpClient client) {
+        return createRetrofit(builder, client, ChannelApi.HOST);
+    }
+
+    @Singleton
+    @Provides
+    ChannelApi provideChannelService(@ServiceType("Channel") Retrofit retrofit) {
+        return retrofit.create(ChannelApi.class);
     }
 
     @Singleton
