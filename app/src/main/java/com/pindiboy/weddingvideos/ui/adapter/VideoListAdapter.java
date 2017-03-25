@@ -4,7 +4,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.pindiboy.weddingvideos.R;
+import com.pindiboy.shadiraat.R;
 import com.pindiboy.weddingvideos.model.bean.youtube.Item;
 import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
 import com.pindiboy.weddingvideos.util.DateUtil;

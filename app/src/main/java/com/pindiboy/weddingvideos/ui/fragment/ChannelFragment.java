@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.pindiboy.weddingvideos.R;
+import com.pindiboy.shadiraat.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.youtube.ItemId;
 import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;

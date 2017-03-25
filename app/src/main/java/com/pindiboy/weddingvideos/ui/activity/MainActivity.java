@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.pindiboy.weddingvideos.R;
+import com.pindiboy.shadiraat.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.ChannelConfig;
 import com.pindiboy.weddingvideos.model.bean.IpInfo;

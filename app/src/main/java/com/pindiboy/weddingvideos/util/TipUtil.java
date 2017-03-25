@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.github.johnpersano.supertoasts.library.Style;
 import com.github.johnpersano.supertoasts.library.SuperActivityToast;
-import com.pindiboy.weddingvideos.R;
+import com.pindiboy.shadiraat.R;
 
 /**
  * Created by Jiangwenjin on 2017/2/28.
