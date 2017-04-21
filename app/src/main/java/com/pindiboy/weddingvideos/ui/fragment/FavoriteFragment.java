@@ -16,7 +16,7 @@ import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemDragListener;
-import com.pindiboy.shadiraat.R;
+import com.pindi.shadiraat.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.youtube.Snippet;
 import com.pindiboy.weddingvideos.presenter.FavoritePresenter;

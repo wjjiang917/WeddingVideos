@@ -3,6 +3,7 @@ package com.pindiboy.weddingvideos;
 import android.app.Application;
 import android.content.Context;
 
+import com.bugtags.library.Bugtags;
 import com.pindiboy.weddingvideos.di.component.AppComponent;
 import com.pindiboy.weddingvideos.di.component.DaggerAppComponent;
 import com.pindiboy.weddingvideos.di.module.AppModule;
@@ -24,6 +25,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+
+        //在这里初始化
+        Bugtags.start("bbf12ba95035930ae567cdc724553ebf", this, Bugtags.BTGInvocationEventNone);
     }
 
     protected void attachBaseContext(Context base) {

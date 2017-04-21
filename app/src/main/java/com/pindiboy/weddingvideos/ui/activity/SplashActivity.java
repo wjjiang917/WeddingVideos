@@ -3,7 +3,7 @@ package com.pindiboy.weddingvideos.ui.activity;
 import android.content.Intent;
 
 import com.google.gson.Gson;
-import com.pindiboy.shadiraat.R;
+import com.pindi.shadiraat.R;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.model.bean.ChannelConfig;
 import com.pindiboy.weddingvideos.presenter.SplashPresenter;

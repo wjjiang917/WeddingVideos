@@ -1,6 +1,6 @@
 package com.pindiboy.weddingvideos.di.module;
 
-import com.pindiboy.shadiraat.BuildConfig;
+import com.pindi.shadiraat.BuildConfig;
 import com.pindiboy.weddingvideos.App;
 import com.pindiboy.weddingvideos.common.Constant;
 import com.pindiboy.weddingvideos.di.qualifier.ServiceType;

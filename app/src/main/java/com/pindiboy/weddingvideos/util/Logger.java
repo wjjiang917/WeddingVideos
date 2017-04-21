@@ -3,7 +3,7 @@ package com.pindiboy.weddingvideos.util;
 import android.os.Environment;
 import android.util.Log;
 
-import com.pindiboy.shadiraat.BuildConfig;
+import com.pindi.shadiraat.BuildConfig;
 
 import java.io.File;
 import java.io.FileOutputStream;

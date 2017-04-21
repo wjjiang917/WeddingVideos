@@ -104,8 +104,7 @@
             android:clickable="true"
             android:contentDescription="@string/open_video_in_youtube"
             android:padding="8dp"
-            android:src="@drawable/ic_youtube_24dp"
-            android:visibility="gone" />
+            android:src="@drawable/ic_youtube_24dp" />
 
         <ImageView
             android:id="@+id/sdk_setting_button"

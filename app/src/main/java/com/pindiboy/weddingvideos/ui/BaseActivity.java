@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.bugtags.library.Bugtags;
 import com.pindiboy.weddingvideos.App;
 import com.pindiboy.weddingvideos.di.component.ActivityComponent;
 import com.pindiboy.weddingvideos.di.component.DaggerActivityComponent;
@@ -52,12 +54,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressedSupport();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> onBackPressedSupport());
     }
 
     protected ActivityComponent getActivityComponent() {
@@ -69,6 +66,24 @@ public abstract class BaseActivity<T extends BasePresenter> extends SupportActiv
 
     protected ActivityModule getActivityModule() {
         return new ActivityModule(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bugtags.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Bugtags.onPause(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Bugtags.onDispatchTouchEvent(this, ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override

@@ -4,10 +4,11 @@ apply plugin: 'realm-android'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.pindiboy.shadiraat"
+        applicationId "com.pindi.shadiraat"
         minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
@@ -17,11 +18,15 @@ android {
 
         //added to check build time
         buildConfigField "String", 'AES_KEY', '"PindiBoy@123"'
+
+        ndk {
+            // 设置支持的 SO 库构架，一般而言，取你所有的库支持的构架的`交集`。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -29,6 +34,20 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+//应用 Bugtags 插件
+apply plugin: 'com.bugtags.library.plugin'
+
+//Bugtags 插件配置
+bugtags {
+    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
+    appKey "bbf12ba95035930ae567cdc724553ebf"  //这里是你的 appKey
+    appSecret "9e59e20e2d76c50b0bd273ee3f3c6bf1"    //这里是你的 appSecret，管理员在设置页可以查看
+    mappingUploadEnabled true
+
+    //网络跟踪功能配置(企业版)
+    trackingNetworkEnabled true
 }
 
 dependencies {
@@ -55,6 +74,8 @@ dependencies {
     compile 'com.google.dagger:dagger:2.4'
     apt 'com.google.dagger:dagger-compiler:2.4'
     compile 'org.glassfish:javax.annotation:10.0-b28'
+
+    compile 'com.bugtags.library:bugtags-lib:latest.integration'
 
     // rx
     compile 'io.reactivex:rxandroid:1.2.1'
